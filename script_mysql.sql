@@ -53,7 +53,7 @@ VALUES
 (1, 2);
 
 CREATE TABLE `user_form` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `question1` boolean NOT NULL,
   `question2` boolean NOT NULL,
@@ -68,3 +68,5 @@ CREATE TABLE `user_form` (
   REFERENCES `user` (`id`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+INSERT INTO `user_form` (user_id,question1,question2,question3,question4,question5,question6,question7)
+VALUES(1,0,0,0,0,0,0,0);
