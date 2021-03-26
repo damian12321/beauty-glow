@@ -16,12 +16,12 @@ public class UserDaoImpl implements UserDao {
 	private EntityManager entityManager;
 
 	@Override
-	public User findByUserName(String theUserName) {
+	public User findByEmailAddress(String email) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		Query<User> theQuery = currentSession.createQuery("from User where userName=:uName", User.class);
-		theQuery.setParameter("uName", theUserName);
+		Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
+		theQuery.setParameter("theEmail", email);
 		User theUser = null;
 		try {
 			theUser = theQuery.getSingleResult();

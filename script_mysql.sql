@@ -53,7 +53,6 @@ VALUES
 (1, 2);
 
 CREATE TABLE `user_form` (
-  `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `question1` boolean NOT NULL,
   `question2` boolean NOT NULL,
@@ -62,7 +61,7 @@ CREATE TABLE `user_form` (
   `question5` boolean NOT NULL,
   `question6` boolean NOT NULL,
   `question7` boolean NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`user_id`),
   KEY `FK_USERFORM_idx` (`user_id`),
   CONSTRAINT `FK_USER_06` FOREIGN KEY (`user_id`) 
   REFERENCES `user` (`id`) 

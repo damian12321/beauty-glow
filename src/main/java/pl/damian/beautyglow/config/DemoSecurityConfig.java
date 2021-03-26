@@ -15,51 +15,51 @@ import pl.damian.beautyglow.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
-
-
-    @Autowired
     private UserService userService;
-	
-    @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    
-   @Override
+    @Autowired
+    public DemoSecurityConfig(UserService userService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+        this.userService = userService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+    }
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()
-			.antMatchers("/account/**").hasAnyRole("ADMIN","CUSTOMER")
-			.and()
-			.formLogin()
-				.loginPage("/loginPage")
-				.loginProcessingUrl("/authenticateTheUser")
-				.successHandler(customAuthenticationSuccessHandler)
-				.permitAll()
-			.and()
-			.logout().permitAll()
-			.and()
-			.exceptionHandling().accessDeniedPage("/access-denied");
-		
-	}
-	
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.authorizeRequests()
+                .antMatchers("/").hasAnyRole("ADMIN", "CUSTOMER")
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/authenticateTheUser")
+                .successHandler(customAuthenticationSuccessHandler)
+                .permitAll()
+                .and()
+                .logout().permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/access-denied");
+
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-		auth.setUserDetailsService(userService);
-		auth.setPasswordEncoder(passwordEncoder());
-		return auth;
-	}
-	  
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
+    }
+
 }
 
 

@@ -12,8 +12,8 @@ public class User {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "username")
-	private String userName;
+	@Column(name = "email")
+	private String email;
 
 	@Column(name = "password")
 	private String password;
@@ -23,9 +23,6 @@ public class User {
 
 	@Column(name = "last_name")
 	private String lastName;
-
-	@Column(name = "email")
-	private String email;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
@@ -40,17 +37,15 @@ public class User {
 	public User() {
 	}
 
-	public User(String userName, String password, String firstName, String lastName, String email) {
-		this.userName = userName;
+	public User(String email, String password, String firstName, String lastName) {
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 	}
 
-	public User(String userName, String password, String firstName, String lastName, String email,
+	public User(String email, String password, String firstName, String lastName,
 			Collection<Role> roles) {
-		this.userName = userName;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -64,14 +59,6 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -124,7 +111,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
+		return "User{" + "id=" + id  + ", password='" + "*********" + '\''
 				+ ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
 				+ ", roles=" + roles + '}';
 	}

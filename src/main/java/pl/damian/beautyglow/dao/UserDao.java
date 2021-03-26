@@ -5,7 +5,7 @@ import pl.damian.beautyglow.entity.User;
 
 public interface UserDao {
 
-    public User findByUserName(String userName);
+    public User findByEmailAddress(String email);
     
     public void save(User user);
     

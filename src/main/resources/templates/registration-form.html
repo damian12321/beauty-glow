@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+
+<head>
+
+	<title>Register New User Form</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet" />
+	<link href="../static/css/fontello.css" th:href="@{/css/fontello.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+	<div class="container-register">
+		<div id="login">
+			Rejestracja
+		</div>
+
+
+
+		<form th:action="@{/register/processRegistrationForm}" th:object="${newUser}" method="POST">
+
+
+
+			<div th:if="${registrationError}">
+				<span th:text="${registrationError}" class="error"></span>
+			</div>
+
+
+
+			<div id=email>
+				<i class=icon-mail-alt></i>
+				<input type="text" th:field="*{email}" placeholder="email (*)" />
+
+				<div th:if="${#fields.hasErrors('email')}">
+					<ul>
+						<li th:each="err : ${#fields.errors('email')}" th:text="'Email ' + ${err}" class="error" />
+					</ul>
+				</div>
+			</div>
+			<div id="password">
+				<i class=icon-lock></i>
+				<input type="password" th:field="*{password}" placeholder="password (*)" th:errorclass="fieldError" />
+
+				<div th:if="${#fields.hasErrors('password')}">
+					<ul>
+						<li th:each="err : ${#fields.errors('password')}" th:text="'Password ' + ${err}"
+							class="error" />
+					</ul>
+				</div>
+			</div>
+			<div id="matchingPassword">
+				<i class=icon-lock></i>
+				<input type="password" th:field="*{matchingPassword}" placeholder="confirm password (*)"
+					th:errorclass="fieldError" />
+				<div th:if="${#fields.hasErrors('matchingPassword')}">
+					<ul>
+						<li th:each="err : ${#fields.errors('matchingPassword')}" th:text="'Password ' + ${err}"
+							class="error" />
+					</ul>
+				</div>
+			</div>
+			<div id="firstName">
+				<i class=icon-user></i>
+				<input type="text" th:field="*{firstName}" placeholder="first name (*)" th:errorclass="fieldError" />
+
+				<div th:if="${#fields.hasErrors('firstName')}">
+					<ul>
+						<li th:each="err : ${#fields.errors('firstName')}" th:text="'First name ' + ${err}"
+							class="error" />
+					</ul>
+				</div>
+			</div>
+			<div id="lastName">
+				<i class=icon-user></i>
+				<input type="text" th:field="*{lastName}" placeholder="last name (*)" th:errorclass="fieldError" />
+
+				<div th:if="${#fields.hasErrors('lastName')}">
+					<ul>
+						<li th:each="err : ${#fields.errors('lastName')}" th:text="'Last name ' + ${err}"
+							class="error" />
+					</ul>
+				</div>
+			</div>
+
+			<button type="submit">Zarejestruj</button>
+
+		</form>
+		<div id="no-account">
+			<a th:href="@{/}" role="button" aria-pressed="true">Powrót</a>
+		</div>
+
+
+
+
+
+
+
+	</div>
+
+</body>
+
+</html>

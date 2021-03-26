@@ -12,7 +12,7 @@ import pl.damian.beautyglow.dao.RoleDao;
 import pl.damian.beautyglow.dao.UserDao;
 import pl.damian.beautyglow.entity.Role;
 import pl.damian.beautyglow.entity.User;
-import pl.damian.beautyglow.user.CrmUser;
+import pl.damian.beautyglow.user.NewUser;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,37 +27,38 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private RoleDao roleDao;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+
+
 	@Override
 	@Transactional
-	public User findByUserName(String userName) {
-		return userDao.findByUserName(userName);
+	public User findByEmailAddress(String userName) {
+		return userDao.findByEmailAddress(userName);
 	}
 
 	@Override
 	@Transactional
-	public void save(CrmUser crmUser) {
+	public void save(NewUser newUser) {
 		User user = new User();
-		user.setUserName(crmUser.getUserName());
-		user.setPassword(passwordEncoder.encode(crmUser.getPassword()));
-		user.setFirstName(crmUser.getFirstName());
-		user.setLastName(crmUser.getLastName());
-		user.setEmail(crmUser.getEmail());
+		user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+		user.setFirstName(newUser.getFirstName());
+		user.setLastName(newUser.getLastName());
+		user.setEmail(newUser.getEmail());
 		user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
 		userDao.save(user);
 	}
 
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userDao.findByUserName(userName);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userDao.findByEmailAddress(email);
 		if (user == null) {
-			throw new UsernameNotFoundException("Invalid username or password.");
+			throw new UsernameNotFoundException("Invalid email or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
 				mapRolesToAuthorities(user.getRoles()));
 	}
 

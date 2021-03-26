@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Glow</title>
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet" />
+    <link href="../static/css/fontello.css" th:href="@{/css/fontello.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container-login">
+        <div id="login">
+            Logowanie
+        </div>
+        <form th:action="@{/authenticateTheUser}" method="POST">
+
+            <div id=email>
+                <i class="icon-mail-alt"></i>
+                <input type="text" name="username" placeholder="email" class="form-control">
+            </div>
+            <div id="password">
+                <i class=icon-lock></i>
+                <input type="password" name="password" placeholder="hasło" />
+            </div>
+
+            <div th:if="${param.error}" class="error">
+                Nieprawidłowy email lub hasło.
+            </div>
+
+            <!-- Check for logout -->
+            <div th:if="${param.logout}" class="logged-out">
+                Wylogowano
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="no-account">
+            <a th:href="@{/register/showRegistrationForm}" role="button" aria-pressed="true">Zarejestruj się</a>
+     </div>
+    </div>
+
+
+
+</body>
+
+</html>

@@ -11,6 +11,11 @@ public class MainController {
 		
 		return "index";
 	}
+	@GetMapping("/account")
+	public String showAccount() {
+
+		return "account";
+	}
 
 }
 
