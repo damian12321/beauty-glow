@@ -24,6 +24,9 @@ public class User {
 	@Column(name = "last_name")
 	private String lastName;
 
+	@Column(name = "phone_number")
+	private String phoneNumber;
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private Form form;
@@ -107,6 +110,14 @@ public class User {
 
 	public void setForm(Form form) {
 		this.form = form;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	@Override

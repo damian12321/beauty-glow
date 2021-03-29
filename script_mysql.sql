@@ -6,17 +6,17 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `password` char(80) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `phone_number` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
 
-INSERT INTO `user` (username,password,first_name,last_name,email)
+INSERT INTO `user` (email,password,first_name,last_name,phone_number)
 VALUES 
-('admin','$2a$10$OMoLd00UKDA..bf1Hf3bd.P0tvSQMP9o3aeWj3nip39KjjPbuxUi2','Damian','Juruś','damianjurus@wp.pl');
+('damianjurus@wp.pl','$2a$10$n7LuMBb83Txm6WeOBdx7SeLx1ZjyUj8uNBP932ReDA.6W.uhJcq7e','Damian','Juruś','732799789');
 
 DROP TABLE IF EXISTS `role`;
 

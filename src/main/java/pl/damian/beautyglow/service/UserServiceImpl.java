@@ -29,6 +29,9 @@ public class UserServiceImpl implements UserService {
 	private RoleDao roleDao;
 
 	@Autowired
+	private EmailService emailService;
+
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(newUser.getEmail());
 		user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
 		userDao.save(user);
+		emailService.sendSimpleMessage(newUser.getEmail(),"Potwierdź konto","Potwierdź");
 	}
 
 	@Override
