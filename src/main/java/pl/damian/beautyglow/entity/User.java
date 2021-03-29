@@ -27,6 +27,12 @@ public class User {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 
+	@Column(name = "active")
+	private boolean active;
+
+	@Column(name = "validation_key")
+	private String validationKey;
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private Form form;
@@ -120,10 +126,26 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public boolean getIsActive() {
+		return active;
+	}
+
+	public void setIsActive(boolean active) {
+		this.active = active;
+	}
+
+	public String getValidationKey() {
+		return validationKey;
+	}
+
+	public void setValidationKey(String validationKey) {
+		this.validationKey = validationKey;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" + "id=" + id  + ", password='" + "*********" + '\''
 				+ ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
-				+ ", roles=" + roles + '}';
+				+ ", roles=" + roles +", active="+getIsActive()+ '}';
 	}
 }

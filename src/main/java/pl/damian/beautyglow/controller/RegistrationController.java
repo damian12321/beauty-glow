@@ -55,7 +55,7 @@ public class RegistrationController {
         User existing = userService.findByEmailAddress(email);
         if (existing != null){
         	theModel.addAttribute("newUser", new NewUser());
-			theModel.addAttribute("registrationError", "Email address already exists.");
+			theModel.addAttribute("registrationError", "Adres email już istnieje.");
 
 			logger.warning("Email address already exists.");
         	return "registration-form";
@@ -67,5 +67,15 @@ public class RegistrationController {
         logger.info("Successfully created user: " + email);
         
         return "registration-confirmation";		
+	}
+	@GetMapping("/validate/{email}/{key}")
+	public String validateEmail(@PathVariable String email,@PathVariable String key) {
+		if(userService.validateEmailAddress(email,key))
+		{
+			return "activation-confirm";
+		}else
+		{
+			return "activation-denied";
+		}
 	}
 }

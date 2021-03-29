@@ -21,6 +21,20 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
+    }
 
+    @Override
+    public String textRegisterMessage(String name, String email, String key) {
+        String text="Witaj "+name+","+"\n"
+                + "kliknij w poniższy link aby aktywować swoje konto na stronie localhost:8080."+"\n"
+                + "http://localhost:8080/register/validate/"+email+"/"+key;
+        return text;
+    }
+    @Override
+    public String textResetMessage(String name, String email, String key) {
+        String text="Witaj "+name+","+"\n"
+                + "kliknij w poniższy link aby zresetować swoje hasło na stronie localhost:8080."+"\n"
+                + "http://localhost:8080/reset/"+email+"/"+key;
+        return text;
     }
 }

@@ -54,7 +54,7 @@
 									<div th:if="${#fields.hasErrors('email')}"
 										 style="margin-bottom: 25px" class="text-danger">
 										<ul>
-											<li th:each="err : ${#fields.errors('email')}" th:text="'Email ' + ${err}" />
+											<li th:each="err : ${#fields.errors('email')}" th:text="'E-mail ' + ${err}" />
 										</ul>
 									</div>
 								</div>
@@ -125,9 +125,8 @@
 								<div class="col-xs-15">
 									<div>
 
-										<!-- Check for registration error -->
-										<div th:if="${registrationError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
-											<br>
+										<br>
+										<div th:if="${registrationError}" class="alert alert-danger col-xs-offset-1 col-xs-10" style="text-align: center">
 											<span th:text="${registrationError}"></span>
 										</div>
 
