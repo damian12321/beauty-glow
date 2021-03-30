@@ -16,4 +16,6 @@ public interface UserDao {
     public boolean remindPassword(String email);
 
     public boolean changePassword(String email, String password);
+
+    public boolean update(User user);
 }

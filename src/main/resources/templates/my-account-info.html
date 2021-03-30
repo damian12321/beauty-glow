@@ -66,43 +66,46 @@
                             <div th:if="${session.user}">
                                 <div class="user-details">Imię:</div>
                                 <div class="user-details-data">
-                                    <p th:text="${session.user.firstName}">1</p>
+                                    <p th:text="${user.firstName}">1</p>
                                 </div>
                                 <div class="user-details">Nazwisko:</div>
                                 <div class="user-details-data">
-                                    <p th:text="${session.user.lastName}">1</p>
+                                    <p th:text="${user.lastName}">1</p>
                                 </div>
                                 <div class="user-details">E-mail:</div>
                                 <div class="user-details-data">
-                                    <p th:text="${session.user.email}">1</p>
+                                    <p th:text="${user.email}">1</p>
                                 </div>
                                 <div class="user-details">Numer kontaktowy:</div>
                                 <div class="user-details-data">
-                                    <p th:text="${session.user.phoneNumber}">1</p>
+                                    <p th:text="${user.phoneNumber}">1</p>
                                 </div>
+                                <div class="user-details">Data urodzenia:</div>
+                                <div class="user-details-data">
+                                    <p th:text="${#dates.format(user.date, 'dd.MM.yyyy')}">1</p>
+                                </div>
+
                             </div>
 
                             <div class="btn-group">
                                 <div class="col-md-6 offset-md-4">
 
-                                    <form action="#" th:action="@{/myAccount/editData}" method="POST">
-
+                                    <form action="#" th:action="@{/myAccount/editData}" method="GET" >
+                                        <input type="hidden" name="email" th:value="${user.email}" />
                                         <button type="submit" class="btn btn-primary">Edytuj moje dane</button>
 
                                     </form>
                                 </div>
                                 <div class="col-md-6 offset-md-4">
-                                    <form action="#" th:action="@{/myAccount/changePassword}" method="POST">
-
+                                    <form action="#" th:action="@{/myAccount/changePassword}" method="POST" >
+                                        <input type="hidden" name="email" th:value="${user.email}" />
                                         <button type="submit" class="btn btn-primary">Zmień hasło</button>
-
                                     </form>
                                 </div>
                                 <div class="col-md-6 offset-md-4">
-                                <form action="#" th:action="@{/myAccount/changeEmail}" method="POST">
-
+                                <form action="#" th:action="@{/myAccount/changeEmail}" method="POST" >
+                                    <input type="hidden" name="email" th:value="${user.email}" />
                                     <button type="submit" class="btn btn-primary">Zmień adres e-mail</button>
-
                                 </form>
                                 </div>
                             </div>

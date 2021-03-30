@@ -11,12 +11,15 @@ CREATE TABLE `user` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `phone_number` varchar(50) DEFAULT NULL,
+  `date_of_birth` DATE NOT NULL,
+  `active` boolean DEFAULT FALSE,
+  `validation_key` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
 
-INSERT INTO `user` (email,password,first_name,last_name,phone_number)
+INSERT INTO `user` (email,password,first_name,last_name,phone_number,date_of_birth,active,validation_key)
 VALUES 
-('damianjurus@wp.pl','$2a$10$n7LuMBb83Txm6WeOBdx7SeLx1ZjyUj8uNBP932ReDA.6W.uhJcq7e','Damian','Juruś','732799789');
+('damianjurus@wp.pl','$2a$10$n7LuMBb83Txm6WeOBdx7SeLx1ZjyUj8uNBP932ReDA.6W.uhJcq7e','Damian','Juruś','732799789','1994-06-24',1,'222222');
 
 DROP TABLE IF EXISTS `role`;
 

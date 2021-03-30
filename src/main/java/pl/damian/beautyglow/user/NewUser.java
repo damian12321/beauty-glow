@@ -1,11 +1,19 @@
 package pl.damian.beautyglow.user;
 
 
+
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.damian.beautyglow.validation.FieldMatch;
 import pl.damian.beautyglow.validation.ValidEmail;
 
+import javax.persistence.Column;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+
+
+import java.util.Date;
 
 @FieldMatch.List({
     @FieldMatch(first = "password", second = "matchingPassword", message = " się nie zgadza")
@@ -34,6 +42,11 @@ public class NewUser {
 	private String lastName;
 
 	private String phoneNumber;
+
+	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@Column(name = "date_of_birth")
+	@Past
+	private Date date;
 
 	public NewUser() {
 
@@ -81,6 +94,14 @@ public class NewUser {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date  date) {
+		this.date = date;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {

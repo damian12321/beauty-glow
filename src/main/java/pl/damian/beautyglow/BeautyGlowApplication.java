@@ -8,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BeautyGlowApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(BeautyGlowApplication.class, args);
+
 	}
 
 }

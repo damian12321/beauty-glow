@@ -1,7 +1,13 @@
 package pl.damian.beautyglow.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.Past;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(name = "user")
@@ -26,6 +32,10 @@ public class User {
 
 	@Column(name = "phone_number")
 	private String phoneNumber;
+	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@Column(name = "date_of_birth")
+	@Past
+	private Date date;
 
 	@Column(name = "active")
 	private boolean active;
@@ -37,7 +47,7 @@ public class User {
 	@PrimaryKeyJoinColumn
 	private Form form;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", 
 	joinColumns = @JoinColumn(name = "user_id"), 
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -140,6 +150,14 @@ public class User {
 
 	public void setValidationKey(String validationKey) {
 		this.validationKey = validationKey;
+	}
+
+	public Date  getDate() {
+		return date;
+	}
+
+	public void setDate(Date  date) {
+		this.date = date;
 	}
 
 	@Override

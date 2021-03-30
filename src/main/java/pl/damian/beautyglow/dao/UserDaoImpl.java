@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.service.EmailService;
-
 import javax.persistence.EntityManager;
 import java.util.Random;
 
@@ -119,5 +118,12 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return false;
+    }
+    @Override
+    public boolean update(User user)
+    {
+        Session currentSession = entityManager.unwrap(Session.class);
+        currentSession.update(user);
+        return true;
     }
 }

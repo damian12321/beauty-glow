@@ -52,6 +52,8 @@ public class UserServiceImpl implements UserService {
         user.setLastName(newUser.getLastName());
         user.setEmail(newUser.getEmail());
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
+        user.setPhoneNumber(newUser.getPhoneNumber());
+        user.setDate(newUser.getDate());
         String key = new Random().nextInt(500000000) + "";
         user.setValidationKey(key);
         userDao.save(user);
@@ -63,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userDao.findByEmailAddress(email);
-        if (user == null) {
+        if (user == null||!user.getIsActive()) {
             throw new UsernameNotFoundException("Invalid email or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
@@ -95,7 +97,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean changePassword(String email, String password) {
-        password=passwordEncoder.encode(password);
+        password = passwordEncoder.encode(password);
         return userDao.changePassword(email, password);
+    }
+
+    @Override
+    @Transactional
+    public boolean update(User user) {
+        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
+        return userDao.update(user);
     }
 }

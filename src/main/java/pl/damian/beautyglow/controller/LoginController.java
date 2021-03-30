@@ -57,6 +57,7 @@ public class LoginController {
             newUser.setFirstName(user.getFirstName());
             newUser.setLastName(user.getLastName());
             newUser.setPhoneNumber(user.getPhoneNumber());
+            newUser.setDate(user.getDate());
             theModel.addAttribute("newUser", newUser);
             return "reset-password";
         } else {

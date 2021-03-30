@@ -27,10 +27,22 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/login}">Logowanie</a>
+					<a class="nav-link" th:href="@{/myAccount/info}">Moje konto</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/register/showRegistrationForm}">Rejestracja</a>
+					<a class="nav-link" th:href="@{/myAccount/orderVisit}">Umów się na wizytę</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
+					<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+						<input hidden type="submit" value="Sign Out" />
+					</form>
 				</li>
 			</ul>
 
@@ -43,49 +55,15 @@
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<div class="card">
-					<div class="card-header">Rejestracja</div>
+					<div class="card-header">Edycja danych osobowych</div>
 					<div class="card-body">
-						<form th:action="@{/register/processRegistrationForm}"
-							  th:object="${newUser}" method="POST">
-							<div class="form-group row">
-								<label for="email_address" class="col-md-4 col-form-label text-md-right">Adres e-mail</label>
-								<div class="col-md-6">
-									<input type="text" id="email_address" class="form-control" th:field="*{email}" required autofocus>
-									<div th:if="${#fields.hasErrors('email')}"
-										 style="margin-bottom: 25px" class="text-danger">
-										<ul>
-											<li th:each="err : ${#fields.errors('email')}" th:text="'E-mail ' + ${err}" />
-										</ul>
-									</div>
-								</div>
-
-							</div>
-
-							<div class="form-group row">
-								<label for="password" class="col-md-4 col-form-label text-md-right">Hasło</label>
-								<div class="col-md-6">
-									<input type="password" id="password" class="form-control" th:field="*{password}" required>
-									<div th:if="${#fields.hasErrors('password')}"
-										 style="margin-bottom: 25px" class="text-danger">
-										<ul>
-											<li th:each="err : ${#fields.errors('password')}" th:text="'Hasło ' + ${err}" />
-										</ul>
-									</div>
-								</div>
-
-							</div>
-							<div class="form-group row">
-								<label for="matchingPassword" class="col-md-4 col-form-label text-md-right">Potwierdź hasło</label>
-								<div class="col-md-6">
-									<input type="password" id="matchingPassword" class="form-control" th:field="*{matchingPassword}" required>
-									<div th:if="${#fields.hasErrors('matchingPassword')}"
-										 style="margin-bottom: 25px" class="text-danger">
-										<ul>
-											<li th:each="err : ${#fields.errors('matchingPassword')}" th:text="'Hasło ' + ${err}" />
-										</ul>
-									</div>
-								</div>
-							</div>
+						<form th:action="@{/myAccount/updateData}"
+							  th:object="${user}" method="POST">
+							<input type="hidden" th:field="*{id}"/>
+							<input type="hidden" th:field="*{isActive}"/>
+							<input type="hidden" th:field="*{validationKey}"/>
+							<input type="hidden" th:field="*{email}"/>
+							<input type="hidden" th:field="*{password}"/>
 							<div class="form-group row">
 								<label for="firstName" class="col-md-4 col-form-label text-md-right">Imię</label>
 								<div class="col-md-6">
@@ -114,11 +92,10 @@
 								<label for="dateOfBirth" class="col-md-4 col-form-label text-md-right">Data urodzenia</label>
 								<div class="col-md-6">
 									<input type="text" id="dateOfBirth" class="form-control" th:field="*{date}" required>(np. 24.12.2001)
-
 									<div th:if="${#fields.hasErrors('date')}"
 										 style="margin-bottom: 25px" class="text-danger">
 										<ul>
-											<li th:each="err : ${#fields.errors('date')}" th:text="'Data jest nie prawidłowa'" />
+											<li th:each="err : ${#fields.errors('date')}" th:text="'Data ' + ${err}" />
 										</ul>
 									</div>
 								</div>
@@ -131,22 +108,9 @@
 							</div>
 							<div class="col-md-6 offset-md-4">
 								<button type="submit" class="btn btn-primary">
-									Zarejestruj
+									Potwierdź
 								</button>
 							</div>
-							<div class="form-group">
-								<div class="col-xs-15">
-									<div>
-
-										<br>
-										<div th:if="${registrationError}" class="alert alert-danger col-xs-offset-1 col-xs-10" style="text-align: center">
-											<span th:text="${registrationError}"></span>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
 						</form>
 					</div>
 				</div>
