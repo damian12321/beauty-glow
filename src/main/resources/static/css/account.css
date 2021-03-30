@@ -1,0 +1,18 @@
+.user-details {
+  font-size: 20px;
+  float: left;
+  display: block;
+}
+.user-details-data {
+  font-size: 20px;
+  margin-left: 60%;
+}
+.btn-group {
+  width: 40%;
+  margin-right: 100%;
+  margin-left: -1%;
+}
+.btn {
+  margin-left: -70px;
+  width: 170px;
+}

@@ -14,28 +14,23 @@ import javax.validation.Valid;
 
 @Controller
 public class LoginController {
+
     @Autowired
     private UserService userService;
 
     @GetMapping("/login")
     public String showMyLoginPage() {
-
         return "login";
-
     }
 
     @GetMapping("/access-denied")
     public String showAccessDenied() {
-
         return "access-denied";
-
     }
 
     @GetMapping("/passwordRemind")
     public String showPasswordRemind(Model theModel) {
-
         theModel.addAttribute("email", "");
-
         return "password-remind";
     }
 
@@ -71,17 +66,15 @@ public class LoginController {
 
     @PostMapping("/reset/resetConfirm")
     public String showResetConfirm(@Valid @ModelAttribute("newUser") NewUser newUser,
-                                   BindingResult theBindingResult, Model theModel) {
+                                   BindingResult theBindingResult) {
         if (theBindingResult.hasErrors()) {
             return "reset-password";
         }
-
         boolean result = userService.changePassword(newUser.getEmail(), newUser.getPassword());
         if (result) {
             return "reset-confirm";
-        } else {
-            return "password-remind";
         }
+        return "reset-password";
     }
 
 }

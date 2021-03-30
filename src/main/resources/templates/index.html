@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -8,5 +9,18 @@
 </head>
 <body>
     BEAUTY GLOW
+    <p>
+        <a th:href="@{/myAccount}">Zaloguj</a>
+    </p>
+    <div th:if="${session.user}" >
+        <p th:text="'First name: ' + ${session.user.firstName} + ', Last name: ' + ${session.user.lastName} + ', Email: ' + ${session.user.email}"></p>
+    </div>
+    <div sec:authorize="!hasRole('ROLE_CUSTOMER')">
+
+        <p>
+            <a th:href="@{/myAccount}">Moje konto</a>
+        </p>
+
+    </div>
 </body>
 </html>

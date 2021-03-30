@@ -44,3 +44,15 @@ body{
   margin-left: 0;
   margin-right: 0;
 }
+.nav-link
+{
+  border-bottom-width: 0.2rem;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+}
+.nav-link:hover
+{
+  border-bottom-style: solid;
+  border-bottom-width: 0.2rem;
+  border-bottom-color: black;
+}

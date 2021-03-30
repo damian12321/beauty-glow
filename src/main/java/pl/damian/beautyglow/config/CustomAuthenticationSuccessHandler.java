@@ -29,7 +29,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		User theUser = userService.findByEmailAddress(email);
 		HttpSession session = request.getSession();
 		session.setAttribute("user", theUser);
-		response.sendRedirect(request.getContextPath() + "/");
+		response.sendRedirect(request.getContextPath() + "/myAccount/info");
 	}
 
 }
