@@ -25,6 +25,8 @@ public class NewUser {
 	@Size(min = 1, message = "jest wymagane")
 	private String email;
 
+	private String oldPassword;
+
 	@NotNull(message = "jest wymagane")
 	@Size(min = 1, message = "jest wymagane")
 	private String password;
@@ -108,4 +110,11 @@ public class NewUser {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
 }

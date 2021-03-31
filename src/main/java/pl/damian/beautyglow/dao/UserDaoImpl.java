@@ -120,7 +120,7 @@ public class UserDaoImpl implements UserDao {
         return false;
     }
     @Override
-    public boolean update(User user)
+    public boolean updateData(User user)
     {
         Session currentSession = entityManager.unwrap(Session.class);
         currentSession.update(user);

@@ -103,8 +103,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean update(User user) {
+    public boolean updateData(User user) {
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
-        return userDao.update(user);
+        return userDao.updateData(user);
     }
 }

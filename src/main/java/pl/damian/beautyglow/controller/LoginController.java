@@ -1,9 +1,11 @@
 package pl.damian.beautyglow.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.service.UserService;
@@ -14,7 +16,11 @@ import javax.validation.Valid;
 
 @Controller
 public class LoginController {
-
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
     @Autowired
     private UserService userService;
 
