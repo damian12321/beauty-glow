@@ -4,10 +4,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Past;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -47,11 +46,14 @@ public class User {
 	@PrimaryKeyJoinColumn
 	private Form form;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", 
 	joinColumns = @JoinColumn(name = "user_id"), 
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Collection<Role> roles;
+	private List<Role> roles;
+
+	@OneToMany(mappedBy = "user")
+	List<UsersTreatments> usersTreatments;
 
 	public User() {
 	}
@@ -64,7 +66,7 @@ public class User {
 	}
 
 	public User(String email, String password, String firstName, String lastName,
-			Collection<Role> roles) {
+				List<Role> roles) {
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -116,7 +118,7 @@ public class User {
 		return roles;
 	}
 
-	public void setRoles(Collection<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 
@@ -160,10 +162,18 @@ public class User {
 		this.date = date;
 	}
 
+	public List<UsersTreatments> getUsersTreatments() {
+		return usersTreatments;
+	}
+
+	public void setUsersTreatments(List<UsersTreatments> usersTreatments) {
+		this.usersTreatments = usersTreatments;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" + "id=" + id  + ", password='" + "*********" + '\''
 				+ ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
-				+ ", roles=" + roles +", active="+getIsActive()+ '}';
+				+ ", roles=" + roles +", active="+getIsActive()+  ", treatments=" + usersTreatments+'}';
 	}
 }

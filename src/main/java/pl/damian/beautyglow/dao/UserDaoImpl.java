@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.service.EmailService;
+
 import javax.persistence.EntityManager;
 import java.util.Random;
 
@@ -53,8 +54,8 @@ public class UserDaoImpl implements UserDao {
             String key = new Random().nextInt(500000000) + "";
             theUser.setValidationKey(key);
             currentSession.update(theUser);
-            emailService.sendSimpleMessage(email,"Resetowanie hasła",
-                    emailService.textResetMessage(theUser.getFirstName(),theUser.getEmail(),theUser.getValidationKey()));
+            emailService.sendSimpleMessage(email, "Resetowanie hasła",
+                    emailService.textResetMessage(theUser.getFirstName(), theUser.getEmail(), theUser.getValidationKey()));
             return true;
 
         } catch (Exception e) {
@@ -73,7 +74,7 @@ public class UserDaoImpl implements UserDao {
         try {
             theUser = theQuery.getSingleResult();
             boolean result = validationKey.equals(theUser.getValidationKey());
-            if (result&&!theUser.getIsActive()) {
+            if (result && !theUser.getIsActive()) {
                 theUser.setIsActive(true);
                 currentSession.update(theUser);
                 return true;
@@ -101,6 +102,7 @@ public class UserDaoImpl implements UserDao {
         }
         return false;
     }
+
     @Override
     public boolean changePassword(String email, String password) {
         Session currentSession = entityManager.unwrap(Session.class);
@@ -119,11 +121,23 @@ public class UserDaoImpl implements UserDao {
         }
         return false;
     }
+
     @Override
-    public boolean updateData(User user)
-    {
+    public void updateData(User user) {
         Session currentSession = entityManager.unwrap(Session.class);
         currentSession.update(user);
-        return true;
+
+    }
+
+    @Override
+    public void changeEmail(User user) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        user.setIsActive(false);
+        String key = new Random().nextInt(500000000) + "";
+        user.setValidationKey(key);
+        emailService.sendSimpleMessage(user.getEmail(), "Aktywacja konta",
+                emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
+        currentSession.update(user);
+
     }
 }

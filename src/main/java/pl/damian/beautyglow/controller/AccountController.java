@@ -10,10 +10,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pl.damian.beautyglow.entity.User;
+import pl.damian.beautyglow.entity.UsersTreatments;
 import pl.damian.beautyglow.service.UserService;
 import pl.damian.beautyglow.user.NewUser;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/myAccount")
@@ -88,26 +91,72 @@ public class AccountController {
     }
 
     @GetMapping("/changeEmail")
-    public String changeEmail() {
-
+    public String changeEmail(@RequestParam("email") String email,
+                              Model theModel) {
+        User user = userService.findByEmailAddress(email);
+        NewUser newUser = new NewUser();
+        newUser.setOldEmail(email);
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setDate(user.getDate());
+        newUser.setPassword(user.getPassword());
+        newUser.setMatchingPassword(user.getPassword());
+        theModel.addAttribute("newUser", newUser);
         return "change-email";
+    }
+    @PostMapping("/processChangingEmail")
+    public String processChangingEmail(@Valid @ModelAttribute("newUser") NewUser theNewUser,
+                                       BindingResult theBindingResult,
+                                       Model theModel) {
+        if (theBindingResult.hasErrors()) {
+            System.out.println(theBindingResult.getAllErrors());
+            return "change-email";
+        }
+        User existing = userService.findByEmailAddress(theNewUser.getEmail());
+        if (existing != null){
+            System.out.println("mamy to");
+            theModel.addAttribute("newUser", theNewUser);
+            theModel.addAttribute("registrationError", "Adres email już istnieje.");
+            return "change-email";
+        }
+        User user=userService.findByEmailAddress(theNewUser.getOldEmail());
+        user.setEmail(theNewUser.getEmail());
+        userService.changeEmail(user);
+        return "registration-confirmation";
     }
 
     @GetMapping("/myActualVisits")
-    public String showMyActualVisits() {
-
+    public String showMyActualVisits(Authentication authentication, Model theModel) {
+        String email = authentication.getName();
+        User theUser = userService.findByEmailAddress(email);
+        List<UsersTreatments> actualTreatments=new ArrayList<>();
+        for(UsersTreatments usersTreatments:theUser.getUsersTreatments()){
+            if(usersTreatments.getStatus().equals("planned"))
+            {
+                actualTreatments.add(usersTreatments);
+            }
+        }
+        theModel.addAttribute("actualTreatments", actualTreatments);
         return "my-actual-visits";
     }
 
     @GetMapping("/visitsHistory")
-    public String showMyHistoryVisits() {
-
+    public String showMyHistoryVisits(Authentication authentication, Model theModel) {
+        String email = authentication.getName();
+        User theUser = userService.findByEmailAddress(email);
+        List<UsersTreatments> historyTreatments=new ArrayList<>();
+        for(UsersTreatments usersTreatments:theUser.getUsersTreatments()){
+            if(!usersTreatments.getStatus().equals("planned"))
+            {
+                historyTreatments.add(usersTreatments);
+            }
+        }
+        theModel.addAttribute("historyTreatments", historyTreatments);
         return "my-visits-history";
     }
 
     @GetMapping("/orderVisit")
     public String orderVisit() {
-
         return "order-visit";
     }
 }

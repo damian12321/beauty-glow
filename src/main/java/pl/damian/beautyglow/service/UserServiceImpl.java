@@ -13,8 +13,6 @@ import pl.damian.beautyglow.dao.UserDao;
 import pl.damian.beautyglow.entity.Role;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.user.NewUser;
-
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
@@ -65,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userDao.findByEmailAddress(email);
-        if (user == null||!user.getIsActive()) {
+        if (user == null || !user.getIsActive()) {
             throw new UsernameNotFoundException("Invalid email or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
@@ -103,8 +101,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean updateData(User user) {
+    public void updateData(User user) {
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
-        return userDao.updateData(user);
+        userDao.updateData(user);
+    }
+
+    @Override
+    @Transactional
+    public void changeEmail(User user) {
+        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
+        userDao.changeEmail(user);
     }
 }

@@ -1,0 +1,95 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
+<link href="../static/css/visits.css" th:href="@{/css/visits.css}" rel="stylesheet"/>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+        .error {
+            color: red
+        }
+    </style>
+    <title>Beauty Glow</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Beauty Glow</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myAccount/info}">Moje konto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myAccount/orderVisit}">Umów się na wizytę</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<main class="login-form">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Moje poprzednie wizyty</div>
+                    <div class="card-body">
+                        <div th:if="${session.user}">
+                            <div th:each="tempUserTreatments : ${historyTreatments}" class="visit-container">
+                                <div th:attr="class=${tempUserTreatments.getStatus().equals('cancelled')} ? 'visit-status-cancelled' : 'visit-status-finished'">
+                                    <td th:text="${tempUserTreatments.getStatus().equals('cancelled')} ? 'Anulowana' : 'Zakończona'" />
+                                </div>
+                                <div class="visit-date">
+                                    <p th:text="${#dates.format(tempUserTreatments.getDate(), 'dd.MM.yyyy HH:mm')}" />
+                                </div>
+                                <div class="visit-name">
+                                    <p th:text="${tempUserTreatments.getTreatment().getName()}" />
+                                </div>
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Umów ponownie
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+</body>
+
+</html>
