@@ -114,7 +114,7 @@ public class User {
 		this.email = email;
 	}
 
-	public Collection<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 

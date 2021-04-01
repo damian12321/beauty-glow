@@ -102,14 +102,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateData(User user) {
-        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
         userDao.updateData(user);
     }
 
     @Override
     @Transactional
     public void changeEmail(User user) {
-        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
         userDao.changeEmail(user);
     }
 }

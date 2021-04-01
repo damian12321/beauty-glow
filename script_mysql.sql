@@ -70,5 +70,50 @@ CREATE TABLE `user_form` (
   REFERENCES `user` (`id`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+  
 INSERT INTO `user_form` (user_id,question1,question2,question3,question4,question5,question6,question7)
 VALUES(1,0,0,0,0,0,0,0);
+
+CREATE TABLE `treatment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `duration` int NOT NULL,
+  `cost` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ;
+
+INSERT INTO `treatment` (name,duration,cost)
+VALUES 
+('Laminowanie rzęs',30,100),
+('Laminowanie brwi',15,200),
+('Laminowanie oka',30,300),
+('Laminowanie ucha',45,50),
+('Laminowanie głowy',15,100),
+('Laminowanie ptoka',90,400);
+
+CREATE TABLE `users_treatments` (
+`id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `treatment_id` int NOT NULL,
+  `status` VARCHAR(20) NOT NULL,
+  `date` DATETIME default null,
+  PRIMARY KEY (`id`),
+  KEY `FK_TREATMENT_idx` (`treatment_id`),
+  CONSTRAINT `FK_USER_07` FOREIGN KEY (`user_id`) 
+  REFERENCES `user` (`id`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION,
+  
+  CONSTRAINT `FK_TREATMENT` FOREIGN KEY (`treatment_id`) 
+  REFERENCES `treatment` (`id`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+
+SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `users_treatments` (user_id,treatment_id,status,date)
+VALUES 
+(1, 1,'planned','1994-06-24 15:30:00'),
+(1, 2,'cancelled','1994-06-24 12:30:00'),
+(1, 3,'cancelled','1994-06-24 12:00:00'),
+(1, 5,'finished','1994-06-24 16:00:00'),
+(1, 4,'planned','1994-06-24 09:30:00'),
+(1, 6,'finished','1994-06-24 12:30:00');

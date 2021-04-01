@@ -50,3 +50,6 @@ body {
   border-bottom-width: 0.2rem;
   border-bottom-color: black;
 }
+.card-header{
+  background-color: #FFF4F1 !important;
+}

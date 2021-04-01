@@ -1,16 +1,16 @@
 package pl.damian.beautyglow.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import pl.damian.beautyglow.entity.Treatment;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.entity.UsersTreatments;
+import pl.damian.beautyglow.service.TreatmentService;
 import pl.damian.beautyglow.service.UserService;
 import pl.damian.beautyglow.user.NewUser;
 
@@ -21,15 +21,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/myAccount")
 public class AccountController {
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-    }
+
     @Autowired
     private UserService userService;
     @Autowired
+    private TreatmentService treatmentService;
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
 
     @GetMapping("/info")
     public String showAccount(Authentication authentication, Model theModel) {
@@ -51,8 +50,11 @@ public class AccountController {
                              BindingResult theBindingResult) {
 
         if (theBindingResult.hasErrors()) {
+            System.out.println(theBindingResult.getAllErrors());
             return "edit-data";
         }
+User oldUser=userService.findByEmailAddress(user.getEmail());
+        user.setRoles(oldUser.getRoles());
         userService.updateData(user);
         return "my-account-info";
 
@@ -86,6 +88,9 @@ public class AccountController {
             return "change-password";
         }
         user.setPassword(passwordEncoder.encode(theNewUser.getPassword()));
+        User oldUser = userService.findByEmailAddress(user.getEmail());
+        user.setForm(oldUser.getForm());
+        user.setRoles(oldUser.getRoles());
         userService.updateData(user);
         return "password-changed-confirm";
     }
@@ -114,7 +119,6 @@ public class AccountController {
         }
         User existing = userService.findByEmailAddress(theNewUser.getEmail());
         if (existing != null){
-            System.out.println("mamy to");
             theModel.addAttribute("newUser", theNewUser);
             theModel.addAttribute("registrationError", "Adres email już istnieje.");
             return "change-email";
@@ -156,7 +160,9 @@ public class AccountController {
     }
 
     @GetMapping("/orderVisit")
-    public String orderVisit() {
+    public String orderVisit(Model theModel) {
+        List<Treatment> treatmentList=treatmentService.getTreatments();
+        theModel.addAttribute("treatmentList",treatmentList);
         return "order-visit";
     }
 }
