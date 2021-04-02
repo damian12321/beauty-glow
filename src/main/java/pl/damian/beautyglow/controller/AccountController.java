@@ -1,6 +1,7 @@
 package pl.damian.beautyglow.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,14 @@ import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.entity.UsersTreatments;
 import pl.damian.beautyglow.service.TreatmentService;
 import pl.damian.beautyglow.service.UserService;
+import pl.damian.beautyglow.service.UsersTreatmentsService;
 import pl.damian.beautyglow.user.NewUser;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,6 +33,8 @@ public class AccountController {
     private TreatmentService treatmentService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private UsersTreatmentsService usersTreatmentsService;
 
 
     @GetMapping("/info")
@@ -53,7 +60,7 @@ public class AccountController {
             System.out.println(theBindingResult.getAllErrors());
             return "edit-data";
         }
-User oldUser=userService.findByEmailAddress(user.getEmail());
+        User oldUser = userService.findByEmailAddress(user.getEmail());
         user.setRoles(oldUser.getRoles());
         userService.updateData(user);
         return "my-account-info";
@@ -83,7 +90,7 @@ User oldUser=userService.findByEmailAddress(user.getEmail());
         }
         User user = userService.findByEmailAddress(theNewUser.getEmail());
         String userOldPassword = user.getPassword();
-        if (!passwordEncoder.matches(theNewUser.getOldPassword(),userOldPassword)) {
+        if (!passwordEncoder.matches(theNewUser.getOldPassword(), userOldPassword)) {
             theModel.addAttribute("registrationError", "Stare hasło jest nie prawidłowe.");
             return "change-password";
         }
@@ -109,6 +116,7 @@ User oldUser=userService.findByEmailAddress(user.getEmail());
         theModel.addAttribute("newUser", newUser);
         return "change-email";
     }
+
     @PostMapping("/processChangingEmail")
     public String processChangingEmail(@Valid @ModelAttribute("newUser") NewUser theNewUser,
                                        BindingResult theBindingResult,
@@ -118,12 +126,12 @@ User oldUser=userService.findByEmailAddress(user.getEmail());
             return "change-email";
         }
         User existing = userService.findByEmailAddress(theNewUser.getEmail());
-        if (existing != null){
+        if (existing != null) {
             theModel.addAttribute("newUser", theNewUser);
             theModel.addAttribute("registrationError", "Adres email już istnieje.");
             return "change-email";
         }
-        User user=userService.findByEmailAddress(theNewUser.getOldEmail());
+        User user = userService.findByEmailAddress(theNewUser.getOldEmail());
         user.setEmail(theNewUser.getEmail());
         userService.changeEmail(user);
         return "registration-confirmation";
@@ -133,10 +141,9 @@ User oldUser=userService.findByEmailAddress(user.getEmail());
     public String showMyActualVisits(Authentication authentication, Model theModel) {
         String email = authentication.getName();
         User theUser = userService.findByEmailAddress(email);
-        List<UsersTreatments> actualTreatments=new ArrayList<>();
-        for(UsersTreatments usersTreatments:theUser.getUsersTreatments()){
-            if(usersTreatments.getStatus().equals("planned"))
-            {
+        List<UsersTreatments> actualTreatments = new ArrayList<>();
+        for (UsersTreatments usersTreatments : theUser.getUsersTreatments()) {
+            if (usersTreatments.getStatus().equals("planned")) {
                 actualTreatments.add(usersTreatments);
             }
         }
@@ -148,10 +155,9 @@ User oldUser=userService.findByEmailAddress(user.getEmail());
     public String showMyHistoryVisits(Authentication authentication, Model theModel) {
         String email = authentication.getName();
         User theUser = userService.findByEmailAddress(email);
-        List<UsersTreatments> historyTreatments=new ArrayList<>();
-        for(UsersTreatments usersTreatments:theUser.getUsersTreatments()){
-            if(!usersTreatments.getStatus().equals("planned"))
-            {
+        List<UsersTreatments> historyTreatments = new ArrayList<>();
+        for (UsersTreatments usersTreatments : theUser.getUsersTreatments()) {
+            if (!usersTreatments.getStatus().equals("planned")) {
                 historyTreatments.add(usersTreatments);
             }
         }
@@ -159,10 +165,78 @@ User oldUser=userService.findByEmailAddress(user.getEmail());
         return "my-visits-history";
     }
 
-    @GetMapping("/orderVisit")
-    public String orderVisit(Model theModel) {
-        List<Treatment> treatmentList=treatmentService.getTreatments();
-        theModel.addAttribute("treatmentList",treatmentList);
-        return "order-visit";
+    @GetMapping("/newVisit")
+    public String newVisit(Model theModel) {
+        List<Treatment> treatmentList = treatmentService.getTreatments();
+        theModel.addAttribute("treatmentList", treatmentList);
+        return "new-visit";
+    }
+
+    @GetMapping("/bookVisit")
+    public String orderVisit(@RequestParam("treatmentId") int id, Model theModel) {
+        Treatment treatment = treatmentService.getTreatment(id);
+        LocalDate now = LocalDate.now();
+        LocalDate max = now.plusYears(2L);
+        theModel.addAttribute("now", now);
+        theModel.addAttribute("max", max);
+        theModel.addAttribute("treatment", treatment);
+        theModel.addAttribute("date", new Date());
+        return "book-a-visit";
+    }
+
+    @GetMapping("/checkBookingHours")
+    public String checkBookingHours(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                    @RequestParam("treatmentId") int id, Authentication authentication,
+                                    Model theModel) {
+        System.out.println(date);
+        User user = userService.findByEmailAddress(authentication.getName());
+        List<UsersTreatments> usersTreatmentsList = user.getUsersTreatments();
+        Treatment treatment = treatmentService.getTreatment(id);
+        int hoursOfWork = 8;
+        int startHourOfWork = 8;
+        List<Date> availableHours = new ArrayList<>();
+
+        for (int i = 0; i < hoursOfWork * 60; i += 15) {
+            int tempMinutes = i % 60;
+            int tempHour = i / 60;
+            Date tempDate = new Date();
+            tempDate.setSeconds(0);
+            tempDate.setMinutes(tempMinutes);
+            tempDate.setHours(tempHour + startHourOfWork);
+            availableHours.add(tempDate);
+        }
+        theModel.addAttribute("date", date);
+        theModel.addAttribute("availableHours", availableHours);
+        theModel.addAttribute("treatment", treatment);
+        return "visit-available-hours";
+    }
+
+    @PostMapping("/processBookingVisit")
+    public String processBookingVisit(@RequestParam("date")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                      @RequestParam("hour") String hour, @RequestParam("minutes") String minutes,
+                                      @RequestParam("treatmentId") int id, Authentication authentication,
+                                      Model theModel) {
+
+        date.setHours(Integer.parseInt(hour));
+        date.setMinutes(Integer.parseInt(minutes));
+        User user = userService.findByEmailAddress(authentication.getName());
+        Treatment treatment = treatmentService.getTreatment(id);
+        UsersTreatments usersTreatments = new UsersTreatments(user, treatment, date, "planned");
+        theModel.addAttribute("usersTreatments", usersTreatments);
+        return "confirm-a-visit";
+    }
+    @PostMapping("/confirmVisit")
+    public String confirmVisit(@RequestParam("date")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                      @RequestParam("hour") String hour, @RequestParam("minutes") String minutes,
+                                      @RequestParam("treatmentId") int id, Authentication authentication,
+                                      Model theModel) {
+        date.setHours(Integer.parseInt(hour));
+        date.setMinutes(Integer.parseInt(minutes));
+        User user = userService.findByEmailAddress(authentication.getName());
+        Treatment treatment = treatmentService.getTreatment(id);
+        UsersTreatments usersTreatments = new UsersTreatments(user, treatment, date, "planned");
+        usersTreatmentsService.addUsersTreatments(usersTreatments);
+        theModel.addAttribute("usersTreatments", usersTreatments);
+        return "visit-confirmed";
     }
 }

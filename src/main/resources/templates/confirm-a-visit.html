@@ -3,8 +3,9 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 <link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
-<link href="../static/css/visits.css" th:href="@{/css/visits.css}" rel="stylesheet"/>
+<link href="../static/css/order-visit.css" th:href="@{/css/order-visit.css}" rel="stylesheet"/>
 
 <head>
     <meta charset="utf-8">
@@ -61,29 +62,31 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Moje aktualne wizyty</div>
+                    <div class="card-header">Zarezerwuj wizytę</div>
                     <div class="card-body">
                         <div th:if="${session.user}">
-                            <div th:each="tempUserTreatments : ${actualTreatments}" class="visit-container">
-                                <div class="visit-status-reserved">
-                                    Zarezerwowana
-                                </div>
-                                <div class="visit-date">
-                                    <p th:text="${#dates.format(tempUserTreatments.getDate(), 'dd.MM.yyyy HH:mm')}" />
-                                </div>
+                            <div class="visit-container">
                                 <div class="duration">
-                                    <p th:text="${tempUserTreatments.getTreatment().getDuration()}+' min'" />
+                                    <p th:text="${usersTreatments.getTreatment().getDuration()}+' min'">1</p>
                                 </div>
                                 <div class="price">
-                                    <p th:text="${tempUserTreatments.getTreatment().getCost()}+' zł'"/>
+                                    <p th:text="${usersTreatments.getTreatment().getCost()}+' zł'">1</p>
                                 </div>
                                 <div class="visit-name">
-                                    <p th:text="${tempUserTreatments.getTreatment().getName()}" />
+                                    <p th:text="${usersTreatments.getTreatment().getName()}">1</p>
                                 </div>
+
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Anuluj wizytę
-                                    </button>
+                                    <form action="#" th:action="@{/myAccount/confirmVisit}" method="POST">
+                                        <input type="hidden" name="date" th:value="${#dates.format(usersTreatments.getDate(), 'yyyy-MM-dd')}" />
+                                        <input type="hidden" name="hour" th:value="${usersTreatments.getDate().getHours()}" />
+                                        <input type="hidden" name="minutes" th:value="${usersTreatments.getDate().getMinutes()}" />
+                                        <input type="hidden" name="treatmentId" th:value="${usersTreatments.getTreatment().id}" />
+                                        <div class="date-container">
+                                            <span class="date" th:text="${#dates.format(usersTreatments.getDate(), 'dd.MM.yyyy HH:mm')}"/>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Zarezerwuj</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

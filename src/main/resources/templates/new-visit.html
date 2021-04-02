@@ -36,7 +36,7 @@
                     <a class="nav-link" th:href="@{/myAccount/info}">Moje konto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myAccount/orderVisit}">Umów się na wizytę</a>
+                    <a class="nav-link" th:href="@{/myAccount/newVisit}">Umów się na wizytę</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
@@ -75,9 +75,11 @@
                                     <p th:text="${tempTreatment.getName()}" />
                                 </div>
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Zarezerwuj
-                                    </button>
+                                    <form action="#" th:action="@{/myAccount/bookVisit}" method="GET">
+
+                                    <input type="hidden" name="treatmentId" th:value="${tempTreatment.id}" />
+                                    <button type="submit" class="btn btn-primary">Zarezerwuj</button>
+                                </form>
                                 </div>
                             </div>
                         </div>

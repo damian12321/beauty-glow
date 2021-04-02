@@ -84,12 +84,12 @@ CREATE TABLE `treatment` (
 
 INSERT INTO `treatment` (name,duration,cost)
 VALUES 
-('Laminowanie rzęs',30,100),
-('Laminowanie brwi',15,200),
-('Laminowanie oka',30,300),
-('Laminowanie ucha',45,50),
-('Laminowanie głowy',15,100),
-('Laminowanie ptoka',90,400);
+('Zabieg numer 1',30,100),
+('Zabieg numer 2',15,200),
+('Zabieg numer 3',30,300),
+('Zabieg numer 4',45,50),
+('Zabieg numer 5',15,100),
+('Zabieg numer 6',90,400);
 
 CREATE TABLE `users_treatments` (
 `id` int NOT NULL AUTO_INCREMENT,

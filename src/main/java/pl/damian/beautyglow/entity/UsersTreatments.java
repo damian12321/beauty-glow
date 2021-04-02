@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name="users_treatments")
 public class UsersTreatments {
+
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,7 @@ public class UsersTreatments {
     @ManyToOne
     @JoinColumn(name = "treatment_id")
     Treatment treatment;
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern="dd.MM.yyyy hh:mm")
     @Column(name="date")
@@ -27,6 +29,16 @@ public class UsersTreatments {
 
     @Column(name="status")
     private String status;
+
+    public UsersTreatments() {
+    }
+
+    public UsersTreatments(User user, Treatment treatment, Date date, String status) {
+        this.user = user;
+        this.treatment = treatment;
+        this.date = date;
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

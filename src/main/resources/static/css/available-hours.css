@@ -1,0 +1,38 @@
+.morning,
+.afternoon
+{
+  
+  float: left;
+  width: 50%;
+  height: auto;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+.my-btn,
+.my-btn-primary
+ {
+  margin-left: -0px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 170px;
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid;
+  border-color:  black!important;
+}
+.my-btn:hover,
+.my-btn-primary:hover
+{
+     background-color: rgb(226, 226, 226) !important;
+}
+.btn,
+.btn-primary
+ {
+position: absolute;
+margin-top: -44px;
+margin-left: 70px;
+ 
+
+
+}

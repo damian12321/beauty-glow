@@ -41,7 +41,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
 					<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-						<input hidden type="submit" value="Sign Out" />
+						<input hidden type="submit" value="Sign Out"/>
 					</form>
 				</li>
 			</ul>
@@ -55,48 +55,9 @@
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<div class="card">
-					<div class="card-header">Zmiana adresu e-mail</div>
+					<div class="card-header">Potwierdzenie wizyty</div>
 					<div class="card-body">
-						<form th:action="@{/myAccount/processChangingEmail}"
-							  th:object="${newUser}" method="POST">
-							<input type="hidden" th:field="*{oldEmail}"/>
-							<input type="hidden" th:field="*{firstName}"/>
-							<input type="hidden" th:field="*{lastName}"/>
-							<input type="hidden" th:field="*{date}"/>
-							<input type="hidden" th:field="*{password}"/>
-							<input type="hidden" th:field="*{matchingPassword}"/>
-							<div class="form-group row">
-								<label for="email" class="col-md-4 col-form-label text-md-right">Nowy e-mail</label>
-								<div class="col-md-6">
-									<input type="text" id="email" class="form-control" th:field="*{email}" required>
-									<div th:if="${#fields.hasErrors('email')}"
-										 style="margin-bottom: 25px" class="text-danger">
-										<ul>
-											<li th:each="err : ${#fields.errors('email')}" th:text="'Email ' + ${err}" />
-										</ul>
-									</div>
-								</div>
-
-							</div>
-
-							<div class="col-md-6 offset-md-4">
-								<button type="submit" class="btn btn-primary">
-									Potwierdź
-								</button>
-							</div>
-							<div class="form-group">
-								<div class="col-xs-15">
-									<div>
-
-										<br>
-										<div th:if="${registrationError}" class="alert alert-danger col-xs-offset-1 col-xs-10" style="text-align: center">
-											<span th:text="${registrationError}"></span>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</form>
+						<p th:text="'Twoja wizyta w dniu '+${#dates.format(usersTreatments.getDate(), 'dd.MM.yyyy HH:mm')}+''+' została zarezerwowana.'" />
 					</div>
 				</div>
 			</div>
