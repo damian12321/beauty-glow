@@ -9,6 +9,7 @@ import pl.damian.beautyglow.dao.UsersTreatmentsDao;
 import pl.damian.beautyglow.entity.Treatment;
 import pl.damian.beautyglow.entity.UsersTreatments;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,5 +41,10 @@ public class UsersTreatmentsServiceImpl implements UsersTreatmentsService {
     @Override
     public List<UsersTreatments> getUsersTreatments() {
         return usersTreatmentsDao.getUsersTreatments();
+    }
+
+    @Override
+    public List<UsersTreatments> getUsersTreatmentsOnSpecificDay(Date date) {
+        return usersTreatmentsDao.getUsersTreatmentsOnSpecificDay(date);
     }
 }

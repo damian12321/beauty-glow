@@ -66,20 +66,20 @@
                         <div th:if="${session.user}">
                             <div th:each="tempTreatment : ${treatmentList}" class="visit-container">
                                 <div class="duration">
-                                    <p th:text="${tempTreatment.getDuration()}+' min'" />
+                                    <p th:text="${tempTreatment.getDuration()}+' min'"/>
                                 </div>
                                 <div class="price">
                                     <p th:text="${tempTreatment.getCost()}+' zł'"/>
                                 </div>
                                 <div class="visit-name">
-                                    <p th:text="${tempTreatment.getName()}" />
+                                    <p th:text="${tempTreatment.getName()}"/>
                                 </div>
                                 <div class="col-md-6 offset-md-4">
                                     <form action="#" th:action="@{/myAccount/bookVisit}" method="GET">
 
-                                    <input type="hidden" name="treatmentId" th:value="${tempTreatment.id}" />
-                                    <button type="submit" class="btn btn-primary">Zarezerwuj</button>
-                                </form>
+                                        <input type="hidden" name="treatmentId" th:value="${tempTreatment.id}"/>
+                                        <button type="submit" class="btn btn-primary">Zarezerwuj</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

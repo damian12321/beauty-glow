@@ -2,6 +2,7 @@ package pl.damian.beautyglow.dao;
 
 import pl.damian.beautyglow.entity.UsersTreatments;
 
+import java.util.Date;
 import java.util.List;
 
 public interface UsersTreatmentsDao {
@@ -14,4 +15,7 @@ public interface UsersTreatmentsDao {
     public UsersTreatments getUsersTreatments(int id);
 
     public List<UsersTreatments> getUsersTreatments();
+
+    public List<UsersTreatments> getUsersTreatmentsOnSpecificDay(Date date);
+
 }

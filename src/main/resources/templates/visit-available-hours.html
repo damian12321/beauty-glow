@@ -61,50 +61,59 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header" th:text="'Dostępne godziny w dniu '+${#dates.format(date, 'dd.MM.yyyy')}">HALO
+                    <div class="card-header" th:text="'Dostępne godziny w dniu '+${#dates.format(date, 'dd.MM.yyyy')}">
+
                     </div>
                     <form th:action="@{/myAccount/bookVisit}"
                           method="GET">
-                        <input type="hidden" name="treatmentId" th:value="${treatment.id}" />
-                    <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary">
-                            Wybierz inny termin
-                        </button>
-                    </div>
+                        <input type="hidden" name="treatmentId" th:value="${treatment.id}"/>
+                        <div class="col-md-6 offset-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                Wybierz inny termin
+                            </button>
+                        </div>
                     </form>
                     <div class="card-body">
                         <div th:if="${session.user}">
                             <div class="hours-container">
                                 <div class="morning">
                                     Przed południem
-                                    <form th:action="@{/myAccount/processBookingVisit}" th:each="tempHour : ${availableHours}"
+                                    <form th:action="@{/myAccount/processBookingVisit}"
+                                          th:each="tempHour : ${availableHours}"
                                           method="POST">
 
                                         <button type="submit" class="my-btn my-btn-primary"
-                                                 th:if="${tempHour.getHours()<12}">
-                                            <span th:if="${tempHour.getMinutes()%60!=0}" th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}"/>
-                                            <span th:if="${tempHour.getMinutes()%60==0}" th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}+'0'"/>
-                                            <input type="hidden" name="date" th:value="${#dates.format(date, 'yyyy-MM-dd')}" />
-                                            <input type="hidden" name="hour" th:value="${tempHour.getHours()}" />
-                                            <input type="hidden" name="minutes" th:value="${tempHour.getMinutes()}" />
-                                            <input type="hidden" name="treatmentId" th:value="${treatment.id}" />
+                                                th:if="${tempHour.getHours()<12}">
+                                            <span th:if="${tempHour.getMinutes()%60!=0}"
+                                                  th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}"/>
+                                            <span th:if="${tempHour.getMinutes()%60==0}"
+                                                  th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}+'0'"/>
+                                            <input type="hidden" name="date"
+                                                   th:value="${#dates.format(date, 'yyyy-MM-dd')}"/>
+                                            <input type="hidden" name="hour" th:value="${tempHour.getHours()}"/>
+                                            <input type="hidden" name="minutes" th:value="${tempHour.getMinutes()}"/>
+                                            <input type="hidden" name="treatmentId" th:value="${treatment.id}"/>
                                         </button>
-                                   
+
                                     </form>
                                 </div>
                                 <div class="afternoon">
                                     Po południu
-                                    <form th:action="@{/myAccount/processBookingVisit}" th:each="tempHour : ${availableHours}"
+                                    <form th:action="@{/myAccount/processBookingVisit}"
+                                          th:each="tempHour : ${availableHours}"
                                           method="POST">
 
                                         <button type="submit" class="my-btn my-btn-primary"
                                                 t th:if="${tempHour.getHours()>=12}">
-                                            <span th:if="${tempHour.getMinutes()%60!=0}" th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}"/>
-                                            <span th:if="${tempHour.getMinutes()%60==0}" th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}+'0'"/>
-                                            <input type="hidden" name="date" th:value="${#dates.format(date, 'yyyy-MM-dd')}" />
-                                            <input type="hidden" name="hour" th:value="${tempHour.getHours()}" />
-                                            <input type="hidden" name="minutes" th:value="${tempHour.getMinutes()}" />
-                                            <input type="hidden" name="treatmentId" th:value="${treatment.id}" />
+                                            <span th:if="${tempHour.getMinutes()%60!=0}"
+                                                  th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}"/>
+                                            <span th:if="${tempHour.getMinutes()%60==0}"
+                                                  th:text="${tempHour.getHours()}+':'+${tempHour.getMinutes()}+'0'"/>
+                                            <input type="hidden" name="date"
+                                                   th:value="${#dates.format(date, 'yyyy-MM-dd')}"/>
+                                            <input type="hidden" name="hour" th:value="${tempHour.getHours()}"/>
+                                            <input type="hidden" name="minutes" th:value="${tempHour.getMinutes()}"/>
+                                            <input type="hidden" name="treatmentId" th:value="${treatment.id}"/>
                                         </button>
 
                                     </form>

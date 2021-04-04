@@ -18,10 +18,7 @@ import pl.damian.beautyglow.user.NewUser;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/myAccount")
@@ -57,7 +54,7 @@ public class AccountController {
                              BindingResult theBindingResult) {
 
         if (theBindingResult.hasErrors()) {
-            System.out.println(theBindingResult.getAllErrors());
+
             return "edit-data";
         }
         User oldUser = userService.findByEmailAddress(user.getEmail());
@@ -122,7 +119,7 @@ public class AccountController {
                                        BindingResult theBindingResult,
                                        Model theModel) {
         if (theBindingResult.hasErrors()) {
-            System.out.println(theBindingResult.getAllErrors());
+
             return "change-email";
         }
         User existing = userService.findByEmailAddress(theNewUser.getEmail());
@@ -176,6 +173,7 @@ public class AccountController {
     public String orderVisit(@RequestParam("treatmentId") int id, Model theModel) {
         Treatment treatment = treatmentService.getTreatment(id);
         LocalDate now = LocalDate.now();
+        now = now.plusDays(1);
         LocalDate max = now.plusYears(2L);
         theModel.addAttribute("now", now);
         theModel.addAttribute("max", max);
@@ -186,16 +184,25 @@ public class AccountController {
 
     @GetMapping("/checkBookingHours")
     public String checkBookingHours(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
-                                    @RequestParam("treatmentId") int id, Authentication authentication,
+                                    @RequestParam("treatmentId") int id,
                                     Model theModel) {
-        System.out.println(date);
-        User user = userService.findByEmailAddress(authentication.getName());
-        List<UsersTreatments> usersTreatmentsList = user.getUsersTreatments();
         Treatment treatment = treatmentService.getTreatment(id);
         int hoursOfWork = 8;
-        int startHourOfWork = 8;
-        List<Date> availableHours = new ArrayList<>();
+        int day = date.getDay();
+        {
+            if (day == 0) {
+                hoursOfWork = 0;
+            } else if (day == 6) {
+                hoursOfWork = 6;
+            }
+        }
 
+        int startHourOfWork = 8;
+        List<Date> allHours = new ArrayList();
+        List<Date> bookedHours = new ArrayList<>();
+        LinkedHashMap<Date, Integer> tempAvailableHours = new LinkedHashMap<>();
+        List<Date> availableHours = new ArrayList<>();
+        List<UsersTreatments> usersTreatmentsList = usersTreatmentsService.getUsersTreatmentsOnSpecificDay(date);
         for (int i = 0; i < hoursOfWork * 60; i += 15) {
             int tempMinutes = i % 60;
             int tempHour = i / 60;
@@ -203,16 +210,64 @@ public class AccountController {
             tempDate.setSeconds(0);
             tempDate.setMinutes(tempMinutes);
             tempDate.setHours(tempHour + startHourOfWork);
-            availableHours.add(tempDate);
+            allHours.add(tempDate);
         }
+
+        for (UsersTreatments usersTreatments : usersTreatmentsList) {
+            Date startDate = usersTreatments.getDate();
+            startDate.setSeconds(0);
+            for (int i = 0; i < usersTreatments.getTreatment().getDuration(); i += 15) {
+                int tempMinutes = i % 60;
+                int tempHour = i / 60;
+                Date tempDate = new Date();
+                tempDate.setTime(startDate.getTime());
+                tempDate.setMinutes(tempDate.getMinutes() + tempMinutes);
+                tempDate.setHours(tempDate.getHours() + tempHour);
+                bookedHours.add(tempDate);
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Date date2 : allHours) {
+            boolean reserved = false;
+            for (Date date1 : bookedHours) {
+                if ((date1.getMinutes() == date2.getMinutes()) && date1.getHours() == date2.getHours())
+                    reserved = true;
+            }
+            if (reserved) {
+                sb.append("r");
+            } else {
+                sb.append("f");
+            }
+        }
+        int temp1 = 0;
+        for (int i = sb.toString().length() - 1; i >= 0; i--) {
+            if (sb.toString().charAt(i) == 'f') {
+                temp1++;
+                tempAvailableHours.put(allHours.get(i), temp1);
+            } else {
+                temp1 = 0;
+                tempAvailableHours.put(allHours.get(i), temp1);
+            }
+        }
+        int iterationsNeeded = treatment.getDuration() / 15;
+        for (Map.Entry<Date, Integer> map : tempAvailableHours.entrySet()) {
+            if (map.getValue() >= iterationsNeeded) {
+                availableHours.add(map.getKey());
+            }
+        }
+        Collections.sort(availableHours, (o1, o2) -> (int) (o1.getTime() - o2.getTime()));
+
         theModel.addAttribute("date", date);
         theModel.addAttribute("availableHours", availableHours);
         theModel.addAttribute("treatment", treatment);
+        if (availableHours.isEmpty()) {
+            return "no-visits-available";
+        }
         return "visit-available-hours";
     }
 
     @PostMapping("/processBookingVisit")
-    public String processBookingVisit(@RequestParam("date")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+    public String processBookingVisit(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
                                       @RequestParam("hour") String hour, @RequestParam("minutes") String minutes,
                                       @RequestParam("treatmentId") int id, Authentication authentication,
                                       Model theModel) {
@@ -225,15 +280,92 @@ public class AccountController {
         theModel.addAttribute("usersTreatments", usersTreatments);
         return "confirm-a-visit";
     }
+
     @PostMapping("/confirmVisit")
-    public String confirmVisit(@RequestParam("date")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
-                                      @RequestParam("hour") String hour, @RequestParam("minutes") String minutes,
-                                      @RequestParam("treatmentId") int id, Authentication authentication,
-                                      Model theModel) {
+    public String confirmVisit(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                               @RequestParam("hour") String hour, @RequestParam("minutes") String minutes,
+                               @RequestParam("treatmentId") int id, Authentication authentication,
+                               Model theModel) {
+        int startHourOfWork = 8;
+        int hoursOfWork = 8;
+        int day = date.getDay();
+        {
+            if (day == 0) {
+                hoursOfWork = 0;
+            } else if (day == 6) {
+                hoursOfWork = 6;
+            }
+        }
+        Treatment treatment = treatmentService.getTreatment(id);
+        List<Date> allHours = new ArrayList();
+        List<Date> bookedHours = new ArrayList<>();
+        LinkedHashMap<Date, Integer> tempAvailableHours = new LinkedHashMap<>();
+        List<Date> availableHours = new ArrayList<>();
+        List<UsersTreatments> usersTreatmentsList = usersTreatmentsService.getUsersTreatmentsOnSpecificDay(date);
         date.setHours(Integer.parseInt(hour));
         date.setMinutes(Integer.parseInt(minutes));
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < hoursOfWork * 60; i += 15) {
+            int tempMinutes = i % 60;
+            int tempHour = i / 60;
+            Date tempDate = new Date();
+            tempDate.setSeconds(0);
+            tempDate.setMinutes(tempMinutes);
+            tempDate.setHours(tempHour + startHourOfWork);
+            allHours.add(tempDate);
+        }
+        boolean isAvailable = false;
+        for (UsersTreatments usersTreatments : usersTreatmentsList) {
+            Date startDate = usersTreatments.getDate();
+            startDate.setSeconds(0);
+            for (int i = 0; i < usersTreatments.getTreatment().getDuration(); i += 15) {
+                int tempMinutes = i % 60;
+                int tempHour = i / 60;
+                Date tempDate = new Date();
+                tempDate.setTime(startDate.getTime());
+                tempDate.setMinutes(tempDate.getMinutes() + tempMinutes);
+                tempDate.setHours(tempDate.getHours() + tempHour);
+                bookedHours.add(tempDate);
+            }
+        }
+        for (Date date5 : allHours) {
+            boolean reserved = false;
+            for (Date date1 : bookedHours) {
+                if ((date1.getMinutes() == date5.getMinutes()) && date1.getHours() == date5.getHours())
+                    reserved = true;
+            }
+            if (reserved) {
+                sb.append("r");
+            } else {
+                sb.append("f");
+            }
+        }
+        int temp2 = 0;
+        for (int i = sb.toString().length() - 1; i >= 0; i--) {
+            if (sb.toString().charAt(i) == 'f') {
+                temp2++;
+                tempAvailableHours.put(allHours.get(i), temp2);
+            } else {
+                temp2 = 0;
+                tempAvailableHours.put(allHours.get(i), temp2);
+            }
+        }
+        Collections.sort(availableHours, (o1, o2) -> (int) (o1.getTime() - o2.getTime()));
+        int iterationsNeeded = treatment.getDuration() / 15;
+        for (Map.Entry<Date, Integer> map : tempAvailableHours.entrySet()) {
+            if ((date.getMinutes() == map.getKey().getMinutes()) && (date.getHours() == map.getKey().getHours())) {
+                if (map.getValue() >= iterationsNeeded) {
+
+                    isAvailable = true;
+                }
+            }
+        }
+        theModel.addAttribute("treatment", treatment);
+        if(!isAvailable)
+        {
+            return "already-booked";
+        }
         User user = userService.findByEmailAddress(authentication.getName());
-        Treatment treatment = treatmentService.getTreatment(id);
         UsersTreatments usersTreatments = new UsersTreatments(user, treatment, date, "planned");
         usersTreatmentsService.addUsersTreatments(usersTreatments);
         theModel.addAttribute("usersTreatments", usersTreatments);

@@ -3,7 +3,6 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 <link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
 <link href="../static/css/order-visit.css" th:href="@{/css/order-visit.css}" rel="stylesheet"/>
 
@@ -78,12 +77,17 @@
 
                                 <div class="col-md-6 offset-md-4">
                                     <form action="#" th:action="@{/myAccount/confirmVisit}" method="POST">
-                                        <input type="hidden" name="date" th:value="${#dates.format(usersTreatments.getDate(), 'yyyy-MM-dd')}" />
-                                        <input type="hidden" name="hour" th:value="${usersTreatments.getDate().getHours()}" />
-                                        <input type="hidden" name="minutes" th:value="${usersTreatments.getDate().getMinutes()}" />
-                                        <input type="hidden" name="treatmentId" th:value="${usersTreatments.getTreatment().id}" />
+                                        <input type="hidden" name="date"
+                                               th:value="${#dates.format(usersTreatments.getDate(), 'yyyy-MM-dd')}"/>
+                                        <input type="hidden" name="hour"
+                                               th:value="${usersTreatments.getDate().getHours()}"/>
+                                        <input type="hidden" name="minutes"
+                                               th:value="${usersTreatments.getDate().getMinutes()}"/>
+                                        <input type="hidden" name="treatmentId"
+                                               th:value="${usersTreatments.getTreatment().id}"/>
                                         <div class="date-container">
-                                            <span class="date" th:text="${#dates.format(usersTreatments.getDate(), 'dd.MM.yyyy HH:mm')}"/>
+                                            <span class="date"
+                                                  th:text="${#dates.format(usersTreatments.getDate(), 'dd.MM.yyyy HH:mm')}"/>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Zarezerwuj</button>
                                     </form>

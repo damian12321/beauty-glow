@@ -69,16 +69,16 @@
                                     Zarezerwowana
                                 </div>
                                 <div class="visit-date">
-                                    <p th:text="${#dates.format(tempUserTreatments.getDate(), 'dd.MM.yyyy HH:mm')}" />
+                                    <p th:text="${#dates.format(tempUserTreatments.getDate(), 'dd.MM.yyyy HH:mm')}"/>
                                 </div>
                                 <div class="duration">
-                                    <p th:text="${tempUserTreatments.getTreatment().getDuration()}+' min'" />
+                                    <p th:text="${tempUserTreatments.getTreatment().getDuration()}+' min'"/>
                                 </div>
                                 <div class="price">
                                     <p th:text="${tempUserTreatments.getTreatment().getCost()}+' zł'"/>
                                 </div>
                                 <div class="visit-name">
-                                    <p th:text="${tempUserTreatments.getTreatment().getName()}" />
+                                    <p th:text="${tempUserTreatments.getTreatment().getName()}"/>
                                 </div>
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

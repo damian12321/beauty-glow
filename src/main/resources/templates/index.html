@@ -8,19 +8,19 @@
     <title>Beauty glow</title>
 </head>
 <body>
-    BEAUTY GLOW
+BEAUTY GLOW
+<p>
+    <a th:href="@{/myAccount}">Zaloguj</a>
+</p>
+<div th:if="${session.user}">
+    <p th:text="'First name: ' + ${session.user.firstName} + ', Last name: ' + ${session.user.lastName} + ', Email: ' + ${session.user.email}"></p>
+</div>
+<div sec:authorize="!hasRole('ROLE_CUSTOMER')">
+
     <p>
-        <a th:href="@{/myAccount}">Zaloguj</a>
+        <a th:href="@{/myAccount}">Moje konto</a>
     </p>
-    <div th:if="${session.user}" >
-        <p th:text="'First name: ' + ${session.user.firstName} + ', Last name: ' + ${session.user.lastName} + ', Email: ' + ${session.user.email}"></p>
-    </div>
-    <div sec:authorize="!hasRole('ROLE_CUSTOMER')">
 
-        <p>
-            <a th:href="@{/myAccount}">Moje konto</a>
-        </p>
-
-    </div>
+</div>
 </body>
 </html>
