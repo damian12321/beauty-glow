@@ -74,11 +74,14 @@
                                 <div class="visit-name">
                                     <p th:text="${tempUserTreatments.getTreatment().getName()}" />
                                 </div>
+                                <form th:action="@{/myAccount/bookVisit}" th:method="GET">
+                                    <input type="hidden" name="treatmentId" th:value="${tempUserTreatments.getTreatment().getId()}">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
                                         Umów ponownie
                                     </button>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>

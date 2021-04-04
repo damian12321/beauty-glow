@@ -4,8 +4,6 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
-<link href="../static/css/visits.css" th:href="@{/css/visits.css}" rel="stylesheet"/>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,7 +17,6 @@
     </style>
     <title>Beauty Glow</title>
 </head>
-
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
@@ -61,35 +58,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Moje aktualne wizyty</div>
+                    <div class="card-header">Anulowanie wizyty</div>
                     <div class="card-body">
-                        <div th:if="${session.user}">
-                            <div th:each="tempUserTreatments : ${actualTreatments}" class="visit-container">
-                                <div class="visit-status-reserved">
-                                    Zarezerwowana
-                                </div>
-                                <div class="visit-date">
-                                    <p th:text="${#dates.format(tempUserTreatments.getDate(), 'dd.MM.yyyy HH:mm')}"/>
-                                </div>
-                                <div class="duration">
-                                    <p th:text="${tempUserTreatments.getTreatment().getDuration()}+' min'"/>
-                                </div>
-                                <div class="price">
-                                    <p th:text="${tempUserTreatments.getTreatment().getCost()}+' zł'"/>
-                                </div>
-                                <div class="visit-name">
-                                    <p th:text="${tempUserTreatments.getTreatment().getName()}"/>
-                                </div>
-                                <form th:action="@{/myAccount/cancelVisit}" th:method="POST">
-                                    <input type="hidden" name="usersTreatmentsId" th:value="${tempUserTreatments.getId()}">
-                                    <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary" onclick="if (!(confirm('Czy na pewno chcesz odwołać daną wizytę?'))) return false">
-                                            Anuluj wizytę
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        <p th:text="'Twoja wizyta w dniu '+${#dates.format(usersTreatments.getDate(), 'dd.MM.yyyy HH:mm')}+''+' została anulowana.'"/>
                     </div>
                 </div>
             </div>
@@ -100,5 +71,4 @@
 
 
 </body>
-
 </html>

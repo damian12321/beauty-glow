@@ -371,4 +371,12 @@ public class AccountController {
         theModel.addAttribute("usersTreatments", usersTreatments);
         return "visit-confirmed";
     }
+    @PostMapping("/cancelVisit")
+    public String cancelVisit(@RequestParam("usersTreatmentsId") int id,Model theModel) {
+        UsersTreatments usersTreatments= usersTreatmentsService.getUsersTreatments(id);
+        usersTreatments.setStatus("cancelled");
+        theModel.addAttribute("usersTreatments",usersTreatments);
+        usersTreatmentsService.updateUsersTreatments(usersTreatments);
+        return "cancel-confirmed";
+    }
 }
