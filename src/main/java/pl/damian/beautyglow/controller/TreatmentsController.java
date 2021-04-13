@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/myAccount/treatments")
+@RequestMapping("/treatments")
 public class TreatmentsController {
     @Autowired
     TreatmentService treatmentService;
@@ -58,7 +58,7 @@ public class TreatmentsController {
             return "treatment-form";
         }
         treatmentService.saveTreatment(treatment);
-        return "redirect:/myAccount/treatments/list";
+        return "redirect:/treatments/list";
     }
 
     @PostMapping("/delete")
@@ -74,7 +74,7 @@ public class TreatmentsController {
             }
         }
         treatmentService.deleteTreatment(id);
-        return "redirect:/myAccount/treatments/list";
+        return "redirect:/treatments/list";
 
     }
 
