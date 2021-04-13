@@ -1,28 +1,34 @@
 .styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
 }
 .styled-table thead tr {
-  background-color: #FFF4F1;
+  background-color: #fff4f1;
 
-    text-align: center;
+  text-align: center;
 }
 .styled-table th,
 .styled-table td {
-    padding: 12px 15px;
-    text-align: center;
+  padding: 12px 15px;
+  text-align: center;
 }
-
 
 .styled-table tbody tr:nth-of-type(even) {
-     background-color: #FFF4F1;
+  background-color: #fff4f1;
 }
-.my-btn
-{
-    width: 170px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
-    color: white !important;
+.my-btn {
+  width: 170px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  color: white !important;
+}
+.my-btn-2 {
+  position: absolute;
+  margin-top: -44px;
+  width: 170px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white !important;
 }

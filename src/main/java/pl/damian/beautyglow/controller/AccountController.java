@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.damian.beautyglow.entity.Form;
 import pl.damian.beautyglow.entity.Treatment;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.entity.UsersTreatments;
@@ -162,14 +163,25 @@ public class AccountController {
     }
 
     @GetMapping("/newVisit")
-    public String newVisit(Model theModel) {
+    public String newVisit(Authentication authentication, Model theModel) {
+        String email = authentication.getName();
+        User theUser = userService.findByEmailAddress(email);
+        if (theUser.getForm() == null) {
+
+            return "redirect:/myAccount/userForm";
+        }
         List<Treatment> treatmentList = treatmentService.getTreatments();
         theModel.addAttribute("treatmentList", treatmentList);
         return "new-visit";
     }
 
     @GetMapping("/bookVisit")
-    public String orderVisit(@RequestParam("treatmentId") int id, Model theModel) {
+    public String orderVisit(@RequestParam("treatmentId") int id, Authentication authentication, Model theModel) {
+        String email = authentication.getName();
+        User theUser = userService.findByEmailAddress(email);
+        if (theUser.getForm() == null) {
+            return "redirect:/myAccount/userForm";
+        }
         Treatment treatment = treatmentService.getTreatment(id);
         LocalDate now = LocalDate.now();
         now = now.plusDays(1);
@@ -190,7 +202,7 @@ public class AccountController {
         int hoursOfWork = 8;
         int day = date.getDay();
         {
-            if (day == 0||date.before(new Date())) {
+            if (day == 0 || date.before(new Date())) {
                 hoursOfWork = 0;
             } else if (day == 6) {
                 hoursOfWork = 6;
@@ -361,8 +373,7 @@ public class AccountController {
             }
         }
         theModel.addAttribute("treatment", treatment);
-        if(!isAvailable)
-        {
+        if (!isAvailable) {
             return "already-booked";
         }
         User user = userService.findByEmailAddress(authentication.getName());
@@ -371,12 +382,35 @@ public class AccountController {
         theModel.addAttribute("usersTreatments", usersTreatments);
         return "visit-confirmed";
     }
+
     @PostMapping("/cancelVisit")
-    public String cancelVisit(@RequestParam("usersTreatmentsId") int id,Model theModel) {
-        UsersTreatments usersTreatments= usersTreatmentsService.getUsersTreatments(id);
+    public String cancelVisit(@RequestParam("usersTreatmentsId") int id, Model theModel) {
+        UsersTreatments usersTreatments = usersTreatmentsService.getUsersTreatments(id);
         usersTreatments.setStatus("cancelled");
-        theModel.addAttribute("usersTreatments",usersTreatments);
+        theModel.addAttribute("usersTreatments", usersTreatments);
         usersTreatmentsService.updateUsersTreatments(usersTreatments);
         return "cancel-confirmed";
+    }
+
+    @GetMapping("/userForm")
+    public String userForm(Model theModel) {
+        Form form = new Form();
+        theModel.addAttribute("form", form);
+        return "user-form";
+    }
+    @GetMapping("/editUserForm")
+    public String editUserForm(Authentication authentication,Model theModel) {
+        User user= userService.findByEmailAddress(authentication.getName());
+        Form form = user.getForm();
+        theModel.addAttribute("form", form);
+        return "user-form";
+    }
+    @PostMapping("/saveUserForm")
+    public String userForm(@Valid @ModelAttribute Form form, Authentication authentication) {
+        User user= userService.findByEmailAddress(authentication.getName());
+        form.setId(user.getId());
+        user.setForm(form);
+        userService.updateData(user);
+        return "redirect:/myAccount/info";
     }
 }

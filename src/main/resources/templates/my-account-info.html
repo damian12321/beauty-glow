@@ -114,6 +114,12 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="col-md-6 offset-md-4" th:if="${user.form!=null}">
+                            <form action="#" th:action="@{/myAccount/editUserForm}" method="GET">
+                                <input type="hidden" name="email" th:value="${user.email}" />
+                                <button type="submit" class="btn btn-primary my-btn-3">Edytuj formularz</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
