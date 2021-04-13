@@ -61,7 +61,6 @@ public class AccountController {
         user.setRoles(oldUser.getRoles());
         userService.updateData(user);
         return "my-account-info";
-
     }
 
     @GetMapping("/changePassword")
@@ -187,10 +186,11 @@ public class AccountController {
                                     @RequestParam("treatmentId") int id,
                                     Model theModel) {
         Treatment treatment = treatmentService.getTreatment(id);
+
         int hoursOfWork = 8;
         int day = date.getDay();
         {
-            if (day == 0) {
+            if (day == 0||date.before(new Date())) {
                 hoursOfWork = 0;
             } else if (day == 6) {
                 hoursOfWork = 6;
@@ -198,7 +198,7 @@ public class AccountController {
         }
 
         int startHourOfWork = 8;
-        List<Date> allHours = new ArrayList();
+        List<Date> allHours = new ArrayList<>();
         List<Date> bookedHours = new ArrayList<>();
         LinkedHashMap<Date, Integer> tempAvailableHours = new LinkedHashMap<>();
         List<Date> availableHours = new ArrayList<>();

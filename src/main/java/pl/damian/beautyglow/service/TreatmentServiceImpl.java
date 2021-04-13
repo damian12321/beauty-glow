@@ -15,10 +15,6 @@ public class TreatmentServiceImpl implements TreatmentService {
     @Autowired
     private TreatmentDao treatmentDao;
 
-    @Override
-    public void addTreatment(Treatment treatment) {
-        treatmentDao.addTreatment(treatment);
-    }
 
     @Override
     public void deleteTreatment(int id) {
@@ -26,8 +22,8 @@ public class TreatmentServiceImpl implements TreatmentService {
     }
 
     @Override
-    public void updateTreatment(Treatment treatment) {
-        treatmentDao.updateTreatment(treatment);
+    public void saveTreatment(Treatment treatment) {
+        treatmentDao.saveTreatment(treatment);
     }
 
     @Override

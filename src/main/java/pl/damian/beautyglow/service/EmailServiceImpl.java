@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import pl.damian.beautyglow.entity.UsersTreatments;
+
+import java.text.SimpleDateFormat;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -35,6 +38,15 @@ public class EmailServiceImpl implements EmailService {
         String text="Witaj "+name+","+"\n"
                 + "kliknij w poniższy link aby zresetować swoje hasło na stronie localhost:8080."+"\n"
                 + "http://localhost:8080/reset/"+email+"/"+key;
+        return text;
+    }
+    @Override
+    public String textCancelVisitMessage(String name, String email, UsersTreatments usersTreatments) {
+        String pattern = "dd.MM.yyyy HH:mm";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String date = simpleDateFormat.format(usersTreatments.getDate());
+        String text="Witaj "+name+","+"\n"
+                + "Z przykrością musimy Cię poinformować o odwołaniu Twojej wizyty w terminie "+date+".";
         return text;
     }
 }

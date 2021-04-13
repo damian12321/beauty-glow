@@ -1,6 +1,8 @@
 package pl.damian.beautyglow.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,12 +15,15 @@ public class Treatment {
     private int id;
 
     @Column(name="name")
+    @NotNull
     private String name;
 
     @Column(name="duration")
+    @Min(15)
     private int duration;
 
     @Column(name="cost")
+    @Min(5)
     private int cost;
 
     @OneToMany(mappedBy = "treatment")

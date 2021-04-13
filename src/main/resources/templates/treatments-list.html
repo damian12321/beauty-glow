@@ -4,7 +4,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
-<link href="../static/css/available-hours.css" th:href="@{/css/available-hours.css}" rel="stylesheet"/>
+<link href="../static/css/treatments-table.css" th:href="@{/css/treatments-table.css}" rel="stylesheet"/>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -64,20 +64,58 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Brak terminu</div>
-                    <form th:action="@{/myAccount/bookVisit}"
-                          method="GET">
-                        <input type="hidden" name="treatmentId" th:value="${treatment.id}"/>
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                Wybierz inny termin
-                            </button>
-                        </div>
-                    </form>
-                    <div class="card-body">
-                        Przepraszamy, w wybranym dniu nie ma wolnego terminu na dany zabieg. Prosimy wybrać inny dzień.
-                    </div>
+                    <div class="card-header">Lista zabiegów</div>
+                    <table class="styled-table">
+                        <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Długość zabiegu</th>
+                            <th>Cena</th>
+                            <th>Działanie</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tempTreatment : ${treatmentsList}">
 
+                            <td th:text="${tempTreatment.name}" />
+                            <td th:text="${tempTreatment.duration}" />
+                            <td th:text="${tempTreatment.cost}" />
+
+                            <td>
+                                <div class="btn-group">
+
+                                    <div class="col-small">
+
+                                        <form action="#" th:action="@{/myAccount/treatments/edit}" method="POST">
+
+                                            <input type="hidden" name="treatmentId" th:value="${tempTreatment.id}" />
+                                            <button type="submit" class="btn btn-info btn-sm ml-3 mr-1">Edytuj</button>
+
+                                        </form>
+                                    </div>
+
+                                    <div class="col-small">
+                                        <form action="#" th:action="@{/myAccount/treatments/delete}" method="POST">
+
+                                            <input type="hidden" name="treatmentId" th:value="${tempTreatment.id}" />
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="if (!(confirm('Czy jesteś pewien że chcesz usunąć dany zabieg?'))) return false">
+                                                Usuń
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+
+
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a th:href="@{/myAccount/treatments/add}"
+                       class="btn btn-primary my-btn">
+                        Dodaj nowy zabieg
+                    </a>
                 </div>
             </div>
         </div>
