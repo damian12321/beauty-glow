@@ -1,6 +1,7 @@
 package pl.damian.beautyglow.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import pl.damian.beautyglow.service.UsersTreatmentsService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -75,7 +77,19 @@ public class TreatmentsController {
         }
         treatmentService.deleteTreatment(id);
         return "redirect:/treatments/list";
+    }
 
+    @GetMapping("/usersVisits")
+    public String getUsersVisits() {
+        return "users-visits";
+    }
+
+    @GetMapping("/checkVisits")
+    public String checkVisits(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, Model theModel) {
+        List<UsersTreatments> usersTreatmentsList = usersTreatmentsService.getUsersTreatmentsOnSpecificDay(date);
+        theModel.addAttribute("usersTreatmentsList",usersTreatmentsList);
+        theModel.addAttribute("date",date);
+        return "all-visits-on-day";
     }
 
 }

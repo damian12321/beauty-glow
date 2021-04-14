@@ -84,4 +84,18 @@ font-style: italic;
     width: 220px;
     text-align: center;
 }
+.my-btn
+{
+  position: absolute;
+
+      color: #fff !important;
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+margin-top: -7px;
+margin-left: 70px;
+}
+.my-btn:hover
+{
+  background-color: #006aee !important;
+}
 

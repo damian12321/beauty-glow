@@ -113,7 +113,7 @@ INSERT INTO `users_treatments` (user_id,treatment_id,status,date)
 VALUES 
 (1, 1,'planned','1994-06-24 15:30:00'),
 (1, 2,'cancelled','1994-06-24 12:30:00'),
-(1, 3,'cancelled','1994-06-24 12:00:00'),
+(1, 3,'cancelled','2021-06-24 12:00:00'),
 (1, 5,'finished','1994-06-24 16:00:00'),
-(1, 4,'planned','1994-06-24 09:30:00'),
+(1, 4,'planned','2021-06-24 09:30:00'),
 (1, 6,'finished','1994-06-24 12:30:00');
