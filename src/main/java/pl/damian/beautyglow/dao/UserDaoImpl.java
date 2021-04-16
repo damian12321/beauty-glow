@@ -9,6 +9,7 @@ import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.service.EmailService;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Random;
 
 @Repository
@@ -139,5 +140,12 @@ public class UserDaoImpl implements UserDao {
                 emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
         currentSession.update(user);
 
+    }
+
+    @Override
+    public List<User> getAllUsers(){
+        Session currentSession = entityManager.unwrap(Session.class);
+        List<User> userList=currentSession.createQuery("FROM User",User.class).getResultList();
+        return userList;
     }
 }

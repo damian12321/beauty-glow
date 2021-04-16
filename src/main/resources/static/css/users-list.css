@@ -1,0 +1,6 @@
+.col-md-8,.card {
+  display: inline-block;
+  width: 1000px ;
+  margin-left: 20px;
+  margin-right: auto !important;
+}

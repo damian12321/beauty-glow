@@ -35,7 +35,7 @@
                 <ul class="navbar-nav ml-auto">
                     <div sec:authorize="hasRole('ROLE_ADMIN')">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/treatments/usersVisits}">Wizyty klientów</a>
+                            <a class="nav-link" th:href="@{/users/usersVisits}">Wizyty klientów</a>
                         </li>
                     </div>
                     <div sec:authorize="hasRole('ROLE_ADMIN')">
@@ -46,15 +46,26 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/myAccount/info}">Moje konto</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/myAccount/newVisit}">Umów się na wizytę</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
-                    </li>
+                    <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/myAccount/newVisit}">Umów się na wizytę</a>
+                        </li>
+                    </div>
+                    <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
+                        </li>
+                    </div>
+                    <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
+                        </li>
+                    </div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/users/usersList}">Lista klientów</a>
+                        </li>
+                    </div>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
                         <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
@@ -77,10 +88,10 @@
                             <div th:if="${session.user}">
                                 <div class="visit-container">
                                     <div class="col-md-6 offset-md-4">
-                                        <form action="#" th:action="@{/treatments/checkVisits}" method="GET">
+                                        <form action="#" th:action="@{/users/checkVisits}" method="GET">
                                             <div class="date-container">
                                                 Wybierz datę:
-                                                <input type="date" name="date" th:value="${date}" class="form-control"
+                                                <input type="date" name="date" class="form-control"
                                                     required />
                                             </div>
                                             <button type="submit" class="btn btn-primary">Sprawdź</button>

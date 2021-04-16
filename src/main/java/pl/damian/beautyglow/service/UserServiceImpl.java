@@ -13,8 +13,10 @@ import pl.damian.beautyglow.dao.UserDao;
 import pl.damian.beautyglow.entity.Role;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.user.NewUser;
+
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -109,5 +111,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void changeEmail(User user) {
         userDao.changeEmail(user);
+    }
+
+    @Override
+    @Transactional
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
     }
 }

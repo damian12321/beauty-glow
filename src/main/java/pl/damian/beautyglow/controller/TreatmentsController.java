@@ -11,6 +11,7 @@ import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.entity.UsersTreatments;
 import pl.damian.beautyglow.service.EmailService;
 import pl.damian.beautyglow.service.TreatmentService;
+import pl.damian.beautyglow.service.UserService;
 import pl.damian.beautyglow.service.UsersTreatmentsService;
 
 import javax.validation.Valid;
@@ -77,19 +78,6 @@ public class TreatmentsController {
         }
         treatmentService.deleteTreatment(id);
         return "redirect:/treatments/list";
-    }
-
-    @GetMapping("/usersVisits")
-    public String getUsersVisits() {
-        return "users-visits";
-    }
-
-    @GetMapping("/checkVisits")
-    public String checkVisits(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, Model theModel) {
-        List<UsersTreatments> usersTreatmentsList = usersTreatmentsService.getUsersTreatmentsOnSpecificDay(date);
-        theModel.addAttribute("usersTreatmentsList",usersTreatmentsList);
-        theModel.addAttribute("date",date);
-        return "all-visits-on-day";
     }
 
 }

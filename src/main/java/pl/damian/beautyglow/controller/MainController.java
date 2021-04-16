@@ -11,6 +11,11 @@ public class MainController {
 		
 		return "index";
 	}
+	@GetMapping("/permanentMakeup")
+	public String permanentMakeup() {
+
+		return "permanent-makeup";
+	}
 
 }
 

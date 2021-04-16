@@ -23,7 +23,7 @@
   background-color: #ffbaba;
 }
 .visit-container {
-  background-color: #FFF4F1;
+  background-color: #fff4f1;
   border: 1px solid;
   margin-top: 20px;
   border-radius: 30px;
@@ -38,7 +38,7 @@
   text-align: center;
 }
 .visit-date {
-    /* font-weight: bold; */
+  /* font-weight: bold; */
   position: absolute;
   font-size: 20px;
   margin-top: -42px;
@@ -47,55 +47,47 @@
   text-align: center;
 }
 .btn,
-.btn-primary
- {
-  margin-left: 0;
+.btn-primary {
+  margin-left: 10px;
   margin-bottom: 10px;
   width: 170px;
   background-color: white !important;
   color: black !important;
   border: 1px solid;
-  border-color:  black!important;
+  border-color: black !important;
 }
 .btn:hover,
-.btn-primary:hover
-{
-     background-color: rgb(226, 226, 226) !important;
+.btn-primary:hover {
+  background-color: rgb(226, 226, 226) !important;
 }
-.price
-{
-position: absolute;
-/* font-weight: bold; */
-font-style: italic;
+.price {
+  position: absolute;
+  /* font-weight: bold; */
+  font-style: italic;
   font-size: 20px;
   margin-top: 42px;
   margin-left: 460px;
   width: 220px;
   text-align: center;
 }
-.duration
-{
-    position: absolute;
-    /* font-weight: bold; */
-    font-style: italic;
-    font-size: 20px;
-    margin-top: 0px;
-    margin-left: 460px;
-    width: 220px;
-    text-align: center;
-}
-.my-btn
-{
+.duration {
   position: absolute;
-
-      color: #fff !important;
-    background-color: #007bff !important;
-    border-color: #007bff !important;
-margin-top: -7px;
-margin-left: 70px;
+  /* font-weight: bold; */
+  font-style: italic;
+  font-size: 20px;
+  margin-top: 0px;
+  margin-left: 460px;
+  width: 220px;
+  text-align: center;
 }
-.my-btn:hover
-{
+.my-btn {
+  position: absolute;
+  color: #fff !important;
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+  margin-top: -7px;
+  margin-left: 70px;
+}
+.my-btn:hover {
   background-color: #006aee !important;
 }
-

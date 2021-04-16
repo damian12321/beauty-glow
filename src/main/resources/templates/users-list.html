@@ -5,6 +5,8 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
+<link href="../static/css/treatments-table.css" th:href="@{/css/treatments-table.css}" rel="stylesheet"/>
+<link href="../static/css/users-list.css" th:href="@{/css/users-list.css}" rel="stylesheet" />
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,6 +20,7 @@
     </style>
     <title>Beauty Glow</title>
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
@@ -66,7 +69,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
                     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                        <input hidden type="submit" value="Sign Out" />
+                        <input hidden type="submit" value="Sign Out"/>
                     </form>
                 </li>
             </ul>
@@ -80,47 +83,55 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Edycja danych osobowych</div>
-                    <div class="card-body">
-                        <form th:action="@{/treatments/save}"
-                              th:object="${treatment}" method="POST">
-                            <input type="hidden" th:field="*{id}"/>
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">Nazwa</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="name" class="form-control" th:field="*{name}"
-                                           required>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="duration" class="col-md-4 col-form-label text-md-right">Czas trwania</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="duration" class="form-control" th:field="*{duration}"
-                                           required>
-                                </div>
+                    <div class="card-header">Lista klientów</div>
+                    <table class="styled-table">
+                        <thead>
+                        <tr>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Historia wizyt</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tempUser : ${userList}">
 
-                            </div>
-                            <div class="form-group row">
-                                <label for="cost" class="col-md-4 col-form-label text-md-right">Cena</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="cost" class="form-control" th:field="*{cost}"
-                                           required>
+                            <td th:text="${tempUser.firstName}"/>
+                            <td th:text="${tempUser.lastName}"/>
+                            <td th:text="${tempUser.email}"/>
+                            <td th:text="${tempUser.phoneNumber}"/>
+
+                            <td>
+                                <div class="btn-group">
+
+                                    <div class="col-small">
+
+                                        <form action="#" th:action="@{/users/userActualVisits}" method="GET">
+
+                                            <input type="hidden" name="email" th:value="${tempUser.email}"/>
+                                            <button type="submit" class="btn btn-info btn-sm ml-3 mr-1">Aktualne wizyty</button>
+
+                                        </form>
+                                    </div>
+
+                                    <div class="col-small">
+                                        <form action="#" th:action="@{/users/userHistoryVisits}" method="GET">
+
+                                            <input type="hidden" name="email" th:value="${tempUser.email}"/>
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                Historia wizyt
+                                            </button>
+
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Potwierdź
-                                </button>
-                            </div>
+                            </td>
 
-                            <div th:if="${treatmentError}"
-                                 class="alert alert-danger col-xs-offset-1 col-xs-10"
-                                 style="text-align: center">
-                                <span th:text="${treatmentError}"></span>
-                            </div>
 
-                        </form>
-                    </div>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -130,4 +141,5 @@
 
 
 </body>
+
 </html>

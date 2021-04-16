@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.user.NewUser;
 
+import java.util.List;
+
 public interface UserService extends UserDetailsService {
 
     public User findByEmailAddress(String email);
@@ -22,4 +24,6 @@ public interface UserService extends UserDetailsService {
     public void updateData(User user);
 
     public void changeEmail(User user);
+
+    public List<User> getAllUsers();
 }

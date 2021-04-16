@@ -1,10 +1,11 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pl"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
+<link href="../static/css/visits.css" th:href="@{/css/visits.css}" rel="stylesheet"/>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,6 +19,7 @@
     </style>
     <title>Beauty Glow</title>
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
@@ -80,46 +82,21 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Edycja danych osobowych</div>
+                    <div class="card-header">Historia wizyt:  <span th:text="${user.getFirstName()+' '+user.getLastName()}" /></div>
                     <div class="card-body">
-                        <form th:action="@{/treatments/save}"
-                              th:object="${treatment}" method="POST">
-                            <input type="hidden" th:field="*{id}"/>
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">Nazwa</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="name" class="form-control" th:field="*{name}"
-                                           required>
+                        <div th:if="${session.user}">
+                            <div th:each="tempUserTreatments : ${historyVisits}" class="visit-container">
+                                <div th:attr="class=${tempUserTreatments.getStatus().equals('cancelled')} ? 'visit-status-cancelled' : 'visit-status-finished'">
+                                    <td th:text="${tempUserTreatments.getStatus().equals('cancelled')} ? 'Anulowana' : 'Zakończona'" />
+                                </div>
+                                <div class="visit-date">
+                                    <p th:text="${#dates.format(tempUserTreatments.getDate(), 'dd.MM.yyyy HH:mm')}" />
+                                </div>
+                                <div class="visit-name">
+                                    <p th:text="${tempUserTreatments.getTreatment().getName()}" />
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="duration" class="col-md-4 col-form-label text-md-right">Czas trwania</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="duration" class="form-control" th:field="*{duration}"
-                                           required>
-                                </div>
-
-                            </div>
-                            <div class="form-group row">
-                                <label for="cost" class="col-md-4 col-form-label text-md-right">Cena</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="cost" class="form-control" th:field="*{cost}"
-                                           required>
-                                </div>
-                            </div>
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Potwierdź
-                                </button>
-                            </div>
-
-                            <div th:if="${treatmentError}"
-                                 class="alert alert-danger col-xs-offset-1 col-xs-10"
-                                 style="text-align: center">
-                                <span th:text="${treatmentError}"></span>
-                            </div>
-
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,4 +107,5 @@
 
 
 </body>
+
 </html>

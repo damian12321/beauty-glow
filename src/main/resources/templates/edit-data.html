@@ -31,7 +31,7 @@
             <ul class="navbar-nav ml-auto">
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/treatments/usersVisits}">Wizyty klientów</a>
+                        <a class="nav-link" th:href="@{/users/usersVisits}">Wizyty klientów</a>
                     </li>
                 </div>
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
@@ -42,19 +42,30 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/myAccount/info}">Moje konto</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myAccount/newVisit}">Umów się na wizytę</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
-                </li>
+                <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/myAccount/newVisit}">Umów się na wizytę</a>
+                    </li>
+                </div>
+                <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
+                    </li>
+                </div>
+                <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
+                    </li>
+                </div>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/usersList}">Lista klientów</a>
+                    </li>
+                </div>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
                     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                        <input hidden type="submit" value="Sign Out"/>
+                        <input hidden type="submit" value="Sign Out" />
                     </form>
                 </li>
             </ul>
