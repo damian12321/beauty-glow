@@ -16,6 +16,31 @@ public class MainController {
 
 		return "permanent-makeup";
 	}
+	@GetMapping("/eyelashExtensions")
+	public String eyelashExtensions() {
+
+		return "eyelash-extensions";
+	}
+	@GetMapping("/lifting")
+	public String lifting() {
+
+		return "lifting";
+	}
+	@GetMapping("/makeup")
+	public String makeup() {
+
+		return "makeup";
+	}
+	@GetMapping("/priceList")
+	public String priceList() {
+
+		return "price-list";
+	}
+	@GetMapping("/contact")
+	public String contact() {
+
+		return "contact";
+	}
 
 }
 

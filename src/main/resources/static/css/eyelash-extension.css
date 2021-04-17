@@ -137,20 +137,25 @@ img {
 }
 .treatment-1,
 .treatment-2,
-.treatment-3 {
+.treatment-3,
+.treatment-4{
   margin-top: 30px;
   font-size: 2rem !important;
   margin-left: 135px;
   text-align: center;
   display: block;
   float: left;
-  width: 400px;
+  width: 230px;
+  height: 350px;
 }
-.treatment-2 {
+.treatment-2{
   border-right: black 1px solid;
   border-left: black 1px solid;
-  width: 360px;
   padding-left: 100px;
+  padding-right: 100px;
+}
+.treatment-3{
+  border-right: black 1px solid;
   padding-right: 100px;
 }
 .treatment-description {
@@ -160,8 +165,22 @@ footer {
   position: fixed;
   bottom: 0;
   text-align: center;
-  width: 99 vw;
+  width: 99vw;
   min-width: 99vw;
+}
+.price-list-container
+{
+  text-align: center;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.contact-container
+{
+  text-align: center;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 a {
   text-decoration: none;

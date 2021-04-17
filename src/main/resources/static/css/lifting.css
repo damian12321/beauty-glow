@@ -136,22 +136,19 @@ img {
   text-align: center;
 }
 .treatment-1,
-.treatment-2,
-.treatment-3 {
+.treatment-2 {
   margin-top: 30px;
   font-size: 2rem !important;
   margin-left: 135px;
   text-align: center;
   display: block;
   float: left;
-  width: 400px;
+  width: 35vw;
+  height: 250px;
 }
-.treatment-2 {
+.treatment-1 {
   border-right: black 1px solid;
-  border-left: black 1px solid;
-  width: 360px;
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-right: 150px;
 }
 .treatment-description {
   font-size: 1rem !important;
@@ -160,7 +157,7 @@ footer {
   position: fixed;
   bottom: 0;
   text-align: center;
-  width: 99 vw;
+  width: 99vw;
   min-width: 99vw;
 }
 a {
