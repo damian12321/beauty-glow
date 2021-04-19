@@ -17,19 +17,19 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-	@Autowired
+    @Autowired
     private UserService userService;
 
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException {
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException, ServletException {
 
 
-		String email = authentication.getName();
-		User theUser = userService.findByEmailAddress(email);
-		HttpSession session = request.getSession();
-		session.setAttribute("user", theUser);
-		response.sendRedirect(request.getContextPath() + "/myAccount/info");
-	}
+        String email = authentication.getName();
+        User theUser = userService.findByEmailAddress(email);
+        HttpSession session = request.getSession();
+        session.setAttribute("user", theUser);
+        response.sendRedirect(request.getContextPath() + "/myAccount/info");
+    }
 
 }

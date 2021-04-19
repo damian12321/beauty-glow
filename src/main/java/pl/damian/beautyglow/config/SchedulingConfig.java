@@ -15,17 +15,16 @@ import java.util.List;
 public class SchedulingConfig {
     @Autowired
     UsersTreatmentsService usersTreatmentsService;
+
     @Scheduled(cron = "0 */15 * * * *", zone = "Europe/Warsaw")
     public void scheduleFixedRateTask() {
-       List<UsersTreatments> usersTreatmentsList=usersTreatmentsService.getUsersTreatments();
-       Date date=new Date();
-       for(UsersTreatments usersTreatments:usersTreatmentsList)
-       {
-           if(usersTreatments.getDate().before(date)&&usersTreatments.getStatus().equals("planned"))
-           {
-               usersTreatments.setStatus("finished");
-               usersTreatmentsService.updateUsersTreatments(usersTreatments);
-           }
-       }
+        List<UsersTreatments> usersTreatmentsList = usersTreatmentsService.getUsersTreatments();
+        Date date = new Date();
+        for (UsersTreatments usersTreatments : usersTreatmentsList) {
+            if (usersTreatments.getDate().before(date) && usersTreatments.getStatus().equals("planned")) {
+                usersTreatments.setStatus("finished");
+                usersTreatmentsService.updateUsersTreatments(usersTreatments);
+            }
+        }
     }
 }

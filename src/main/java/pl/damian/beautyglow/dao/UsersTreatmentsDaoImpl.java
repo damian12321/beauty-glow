@@ -9,10 +9,12 @@ import pl.damian.beautyglow.entity.UsersTreatments;
 import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
+
 @Repository
-public class UsersTreatmentsDaoImpl implements UsersTreatmentsDao{
+public class UsersTreatmentsDaoImpl implements UsersTreatmentsDao {
     @Autowired
     private EntityManager entityManager;
+
     @Override
     public void addUsersTreatments(UsersTreatments usersTreatments) {
         Session currentSession = entityManager.unwrap(Session.class);
@@ -22,7 +24,7 @@ public class UsersTreatmentsDaoImpl implements UsersTreatmentsDao{
     @Override
     public void deleteUsersTreatments(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        UsersTreatments usersTreatments=currentSession.get(UsersTreatments.class,id);
+        UsersTreatments usersTreatments = currentSession.get(UsersTreatments.class, id);
         currentSession.delete(usersTreatments);
     }
 
@@ -35,25 +37,25 @@ public class UsersTreatmentsDaoImpl implements UsersTreatmentsDao{
     @Override
     public UsersTreatments getUsersTreatmentsById(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        UsersTreatments usersTreatments=currentSession.get(UsersTreatments.class,id);
+        UsersTreatments usersTreatments = currentSession.get(UsersTreatments.class, id);
         return usersTreatments;
     }
 
     @Override
     public List<UsersTreatments> getUsersTreatments() {
         Session currentSession = entityManager.unwrap(Session.class);
-        Query<UsersTreatments> query=currentSession.createQuery("FROM UsersTreatments");
+        Query<UsersTreatments> query = currentSession.createQuery("FROM UsersTreatments");
         return query.getResultList();
     }
 
     @Override
     public List<UsersTreatments> getUsersTreatmentsOnSpecificDay(Date date) {
         Session currentSession = entityManager.unwrap(Session.class);
-        Query<UsersTreatments> query=currentSession.createQuery("FROM UsersTreatments WHERE (date between :date1 AND :date2) " +
+        Query<UsersTreatments> query = currentSession.createQuery("FROM UsersTreatments WHERE (date between :date1 AND :date2) " +
                 "AND status='planned'");
-        Date date1=new Date();
-        Date date2=new Date();
-       date1.setDate(date.getDate());
+        Date date1 = new Date();
+        Date date2 = new Date();
+        date1.setDate(date.getDate());
         date2.setDate(date.getDate());
         date1.setSeconds(0);
         date1.setMinutes(0);
@@ -61,8 +63,8 @@ public class UsersTreatmentsDaoImpl implements UsersTreatmentsDao{
         date2.setSeconds(59);
         date2.setMinutes(59);
         date2.setHours(23);
-        query.setParameter("date1",date1);
-        query.setParameter("date2",date2);
+        query.setParameter("date1", date1);
+        query.setParameter("date2", date2);
         return query.getResultList();
     }
 }

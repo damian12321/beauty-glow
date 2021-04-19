@@ -1,11 +1,11 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet" />
-<link href="../static/css/treatments-table.css" th:href="@{/css/treatments-table.css}" rel="stylesheet" />
+<link href="../static/css/template.css" th:href="@{/css/template.css}" rel="stylesheet"/>
+<link href="../static/css/treatments-table.css" th:href="@{/css/treatments-table.css}" rel="stylesheet"/>
 
 <head>
     <meta charset="utf-8">
@@ -13,174 +13,169 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <style>
-        .error {
-            color: red
-        }
-    </style>
     <title>Beauty Glow</title>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/}">Beauty Glow</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+<nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Beauty Glow</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/users/usersVisits}">Wizyty klientów</a>
-                        </li>
-                    </div>
-                    <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/treatments/list}">Lista zabiegów</a>
-                        </li>
-                    </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/myAccount/info}">Moje konto</a>
+                        <a class="nav-link" th:href="@{/users/usersVisits}">Wizyty klientów</a>
                     </li>
-                    <div sec:authorize="!hasRole('ROLE_ADMIN')">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/myAccount/newVisit}">Umów się na wizytę</a>
-                        </li>
-                    </div>
-                    <div sec:authorize="!hasRole('ROLE_ADMIN')">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
-                        </li>
-                    </div>
-                    <div sec:authorize="!hasRole('ROLE_ADMIN')">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
-                        </li>
-                    </div>
-                    <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/users/usersList}">Lista klientów</a>
-                        </li>
-                    </div>
+                </div>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
-                        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                            <input hidden type="submit" value="Sign Out" />
-                        </form>
+                        <a class="nav-link" th:href="@{/treatments/list}">Lista zabiegów</a>
                     </li>
-                </ul>
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myAccount/info}">Moje konto</a>
+                </li>
+                <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/myAccount/newVisit}">Umów się na wizytę</a>
+                    </li>
+                </div>
+                <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/myAccount/myActualVisits}">Aktualne wizyty</a>
+                    </li>
+                </div>
+                <div sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/myAccount/visitsHistory}">Historia moich wizyt</a>
+                    </li>
+                </div>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/usersList}">Lista klientów</a>
+                    </li>
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem"> Wyloguj</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+                </li>
+            </ul>
 
-            </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="login-form">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">Formularz do zabiegu</div>
-                        <table class="styled-table">
-                            <form th:action="@{/myAccount/saveUserForm}" th:object="${form}" method="POST">
-                                <tbody>
-                                    <tr>
-                                        <td>Question 1</td>
-                                        <td><input type="radio" id="option1" name="option1" class="custom-control-input"
-                                                value="1" th:field="*{question1}">
-                                            <label class="custom-control-label" for="option1">Tak</label>
-                                        </td>
-                                        <td><input type="radio" id="option2" name="option1" class="custom-control-input"
-                                                value="0" th:field="*{question1}">
-                                            <label class="custom-control-label" for="option2">Nie</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Question 2</td>
-                                        <td><input type="radio" id="option3" name="option2" class="custom-control-input"
-                                                value="1" th:field="*{question2}">
-                                            <label class="custom-control-label" for="option3">Tak</label>
-                                        </td>
-                                        <td><input type="radio" id="option4" name="option2" class="custom-control-input"
-                                                value="0" th:field="*{question2}">
-                                            <label class="custom-control-label" for="option4">Nie</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Question 3</td>
-                                        <td><input type="radio" id="option5" name="option3" class="custom-control-input"
-                                                value="1" th:field="*{question3}">
-                                            <label class="custom-control-label" for="option5">Tak</label>
-                                        </td>
-                                        <td><input type="radio" id="option6" name="option3" class="custom-control-input"
-                                                value="0" th:field="*{question3}">
-                                            <label class="custom-control-label" for="option6">Nie</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Question 4</td>
-                                        <td><input type="radio" id="option7" name="option4" class="custom-control-input"
-                                                value="1" th:field="*{question4}">
-                                            <label class="custom-control-label" for="option7">Tak</label>
-                                        </td>
-                                        <td><input type="radio" id="option8" name="option4" class="custom-control-input"
-                                                value="0" th:field="*{question4}">
-                                            <label class="custom-control-label" for="option8">Nie</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Question 5</td>
-                                        <td><input type="radio" id="option9" name="option5" class="custom-control-input"
-                                                value="1" th:field="*{question5}">
-                                            <label class="custom-control-label" for="option9">Tak</label>
-                                        </td>
-                                        <td><input type="radio" id="option10" name="option5"
-                                                class="custom-control-input" value="0" th:field="*{question5}">
-                                            <label class="custom-control-label" for="option10">Nie</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Question 6</td>
-                                        <td><input type="radio" id="option11" name="option6"
-                                                class="custom-control-input" value="1" th:field="*{question6}">
-                                            <label class="custom-control-label" for="option11">Tak</label>
-                                        </td>
-                                        <td><input type="radio" id="option12" name="option6"
-                                                class="custom-control-input" value="0" th:field="*{question6}">
-                                            <label class="custom-control-label" for="option12">Nie</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Question 7</td>
-                                        <td><input type="radio" id="option13" name="option7"
-                                                class="custom-control-input" value="1" th:field="*{question7}">
-                                            <label class="custom-control-label" for="option13">Tak</label>
-                                        </td>
-                                        <td><input type="radio" id="option14" name="option7"
-                                                class="custom-control-input" value="0" th:field="*{question7}">
-                                            <label class="custom-control-label" for="option14">Nie</label>
-                                        </td>
-                                    </tr>
+<main class="login-form">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Formularz do zabiegu</div>
+                    <table class="styled-table">
+                        <form th:action="@{/myAccount/saveUserForm}" th:object="${form}" method="POST">
+                            <tbody>
+                            <tr>
+                                <td>Question 1</td>
+                                <td><input type="radio" id="option1" name="option1" class="custom-control-input"
+                                           value="1" th:field="*{question1}">
+                                    <label class="custom-control-label" for="option1">Tak</label>
+                                </td>
+                                <td><input type="radio" id="option2" name="option1" class="custom-control-input"
+                                           value="0" th:field="*{question1}">
+                                    <label class="custom-control-label" for="option2">Nie</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Question 2</td>
+                                <td><input type="radio" id="option3" name="option2" class="custom-control-input"
+                                           value="1" th:field="*{question2}">
+                                    <label class="custom-control-label" for="option3">Tak</label>
+                                </td>
+                                <td><input type="radio" id="option4" name="option2" class="custom-control-input"
+                                           value="0" th:field="*{question2}">
+                                    <label class="custom-control-label" for="option4">Nie</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Question 3</td>
+                                <td><input type="radio" id="option5" name="option3" class="custom-control-input"
+                                           value="1" th:field="*{question3}">
+                                    <label class="custom-control-label" for="option5">Tak</label>
+                                </td>
+                                <td><input type="radio" id="option6" name="option3" class="custom-control-input"
+                                           value="0" th:field="*{question3}">
+                                    <label class="custom-control-label" for="option6">Nie</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Question 4</td>
+                                <td><input type="radio" id="option7" name="option4" class="custom-control-input"
+                                           value="1" th:field="*{question4}">
+                                    <label class="custom-control-label" for="option7">Tak</label>
+                                </td>
+                                <td><input type="radio" id="option8" name="option4" class="custom-control-input"
+                                           value="0" th:field="*{question4}">
+                                    <label class="custom-control-label" for="option8">Nie</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Question 5</td>
+                                <td><input type="radio" id="option9" name="option5" class="custom-control-input"
+                                           value="1" th:field="*{question5}">
+                                    <label class="custom-control-label" for="option9">Tak</label>
+                                </td>
+                                <td><input type="radio" id="option10" name="option5"
+                                           class="custom-control-input" value="0" th:field="*{question5}">
+                                    <label class="custom-control-label" for="option10">Nie</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Question 6</td>
+                                <td><input type="radio" id="option11" name="option6"
+                                           class="custom-control-input" value="1" th:field="*{question6}">
+                                    <label class="custom-control-label" for="option11">Tak</label>
+                                </td>
+                                <td><input type="radio" id="option12" name="option6"
+                                           class="custom-control-input" value="0" th:field="*{question6}">
+                                    <label class="custom-control-label" for="option12">Nie</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Question 7</td>
+                                <td><input type="radio" id="option13" name="option7"
+                                           class="custom-control-input" value="1" th:field="*{question7}">
+                                    <label class="custom-control-label" for="option13">Tak</label>
+                                </td>
+                                <td><input type="radio" id="option14" name="option7"
+                                           class="custom-control-input" value="0" th:field="*{question7}">
+                                    <label class="custom-control-label" for="option14">Nie</label>
+                                </td>
+                            </tr>
 
-                                </tbody>
-                                <div class="btn-group">
-                                    <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary my-btn-2">
-                                            Potwierdź
-                                        </button>
-                                    </div>
+                            </tbody>
+                            <div class="btn-group">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary my-btn-2">
+                                        Potwierdź
+                                    </button>
                                 </div>
-                            </form>
-                        </table>
-                    </div>
+                            </div>
+                        </form>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
-    </main>
+</main>
 
 
 </body>

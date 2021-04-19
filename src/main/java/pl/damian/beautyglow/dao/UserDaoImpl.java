@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean remindPassword(String email,boolean skipEmail) {
+    public boolean remindPassword(String email, boolean skipEmail) {
         Session currentSession = entityManager.unwrap(Session.class);
         Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
@@ -55,9 +55,9 @@ public class UserDaoImpl implements UserDao {
             String key = new Random().nextInt(500000000) + "";
             theUser.setValidationKey(key);
             currentSession.update(theUser);
-            if(!skipEmail)
-            emailService.sendSimpleMessage(email, "Resetowanie hasła",
-                    emailService.textResetMessage(theUser.getFirstName(), theUser.getEmail(), theUser.getValidationKey()));
+            if (!skipEmail)
+                emailService.sendSimpleMessage(email, "Resetowanie hasła",
+                        emailService.textResetMessage(theUser.getFirstName(), theUser.getEmail(), theUser.getValidationKey()));
             return true;
 
         } catch (Exception e) {
@@ -132,14 +132,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void changeEmail(User user,boolean skipEmail) {
+    public void changeEmail(User user, boolean skipEmail) {
         Session currentSession = entityManager.unwrap(Session.class);
         user.setIsActive(false);
         String key = new Random().nextInt(500000000) + "";
         user.setValidationKey(key);
-        if(!skipEmail)
-        emailService.sendSimpleMessage(user.getEmail(), "Aktywacja konta",
-                emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
+        if (!skipEmail)
+            emailService.sendSimpleMessage(user.getEmail(), "Aktywacja konta",
+                    emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
         currentSession.update(user);
 
     }
@@ -154,7 +154,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUser(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        User user=currentSession.get(User.class,id);
+        User user = currentSession.get(User.class, id);
         currentSession.delete(user);
     }
 }

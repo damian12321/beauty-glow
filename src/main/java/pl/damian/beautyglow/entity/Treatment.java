@@ -6,22 +6,22 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name="treatment")
+@Table(name = "treatment")
 public class Treatment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name="name")
+    @Column(name = "name")
     @NotNull
     private String name;
 
-    @Column(name="duration")
+    @Column(name = "duration")
     @Min(15)
     private int duration;
 
-    @Column(name="cost")
+    @Column(name = "cost")
     @Min(5)
     private int cost;
 
@@ -32,7 +32,7 @@ public class Treatment {
         this.name = name;
         this.duration = duration;
         this.cost = cost;
-        this.usersTreatments=usersTreatmentsList;
+        this.usersTreatments = usersTreatmentsList;
     }
 
     public Treatment() {

@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="users_treatments")
+@Table(name = "users_treatments")
 public class UsersTreatments {
 
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -23,11 +23,11 @@ public class UsersTreatments {
     Treatment treatment;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="dd.MM.yyyy hh:mm")
-    @Column(name="date")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm")
+    @Column(name = "date")
     private Date date;
 
-    @Column(name="status")
+    @Column(name = "status")
     private String status;
 
     public UsersTreatments() {

@@ -17,7 +17,7 @@ public class TreatmentDaoImpl implements TreatmentDao {
     @Override
     public void deleteTreatment(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        Treatment treatment=currentSession.get(Treatment.class,id);
+        Treatment treatment = currentSession.get(Treatment.class, id);
         currentSession.delete(treatment);
     }
 
@@ -30,14 +30,14 @@ public class TreatmentDaoImpl implements TreatmentDao {
     @Override
     public Treatment getTreatment(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        Treatment treatment=currentSession.get(Treatment.class,id);
+        Treatment treatment = currentSession.get(Treatment.class, id);
         return treatment;
     }
 
     @Override
     public List<Treatment> getTreatments() {
         Session currentSession = entityManager.unwrap(Session.class);
-        Query<Treatment> query=currentSession.createQuery("FROM Treatment");
+        Query<Treatment> query = currentSession.createQuery("FROM Treatment");
         return query.getResultList();
     }
 }

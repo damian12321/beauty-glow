@@ -44,14 +44,13 @@ public class UsersController {
         theModel.addAttribute("userList", userList);
         return "users-list";
     }
+
     @GetMapping("/userActualVisits")
     public String userActualVisits(@RequestParam("email") String email, Model theModel) {
-        User user=userService.findByEmailAddress(email);
-        List<UsersTreatments> actualVisits=new ArrayList<>();
-        for(UsersTreatments usersTreatments:user.getUsersTreatments())
-        {
-            if(usersTreatments.getStatus().equals("planned"))
-            {
+        User user = userService.findByEmailAddress(email);
+        List<UsersTreatments> actualVisits = new ArrayList<>();
+        for (UsersTreatments usersTreatments : user.getUsersTreatments()) {
+            if (usersTreatments.getStatus().equals("planned")) {
                 actualVisits.add(usersTreatments);
             }
         }
@@ -59,14 +58,13 @@ public class UsersController {
         theModel.addAttribute("userActualVisits", actualVisits);
         return "users-actual-visits";
     }
+
     @GetMapping("/userHistoryVisits")
-    public String userHistoryVisits(@RequestParam("email") String email,Model theModel) {
-        User user=userService.findByEmailAddress(email);
-        List<UsersTreatments> historyVisits=new ArrayList<>();
-        for(UsersTreatments usersTreatments:user.getUsersTreatments())
-        {
-            if(!usersTreatments.getStatus().equals("planned"))
-            {
+    public String userHistoryVisits(@RequestParam("email") String email, Model theModel) {
+        User user = userService.findByEmailAddress(email);
+        List<UsersTreatments> historyVisits = new ArrayList<>();
+        for (UsersTreatments usersTreatments : user.getUsersTreatments()) {
+            if (!usersTreatments.getStatus().equals("planned")) {
                 historyVisits.add(usersTreatments);
             }
         }

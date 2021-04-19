@@ -7,7 +7,6 @@ import java.util.List;
 public interface TreatmentDao {
 
 
-
     public void deleteTreatment(int id);
 
     public void saveTreatment(Treatment treatment);

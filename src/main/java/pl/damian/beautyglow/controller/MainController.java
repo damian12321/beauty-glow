@@ -6,41 +6,47 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-	@GetMapping("/")
-	public String showMain() {
-		
-		return "index";
-	}
-	@GetMapping("/permanentMakeup")
-	public String permanentMakeup() {
+    @GetMapping("/")
+    public String showMain() {
 
-		return "permanent-makeup";
-	}
-	@GetMapping("/eyelashExtensions")
-	public String eyelashExtensions() {
+        return "index";
+    }
 
-		return "eyelash-extensions";
-	}
-	@GetMapping("/lifting")
-	public String lifting() {
+    @GetMapping("/permanentMakeup")
+    public String permanentMakeup() {
 
-		return "lifting";
-	}
-	@GetMapping("/makeup")
-	public String makeup() {
+        return "permanent-makeup";
+    }
 
-		return "makeup";
-	}
-	@GetMapping("/priceList")
-	public String priceList() {
+    @GetMapping("/eyelashExtensions")
+    public String eyelashExtensions() {
 
-		return "price-list";
-	}
-	@GetMapping("/contact")
-	public String contact() {
+        return "eyelash-extensions";
+    }
 
-		return "contact";
-	}
+    @GetMapping("/lifting")
+    public String lifting() {
+
+        return "lifting";
+    }
+
+    @GetMapping("/makeup")
+    public String makeup() {
+
+        return "makeup";
+    }
+
+    @GetMapping("/priceList")
+    public String priceList() {
+
+        return "price-list";
+    }
+
+    @GetMapping("/contact")
+    public String contact() {
+
+        return "contact";
+    }
 
 }
 

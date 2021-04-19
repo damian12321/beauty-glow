@@ -1,7 +1,6 @@
 package pl.damian.beautyglow.user;
 
 
-
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.damian.beautyglow.validation.FieldMatch;
 import pl.damian.beautyglow.validation.ValidEmail;
@@ -16,124 +15,124 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @FieldMatch.List({
-    @FieldMatch(first = "password", second = "matchingPassword", message = " się nie zgadza")
+        @FieldMatch(first = "password", second = "matchingPassword", message = " się nie zgadza")
 })
 public class NewUser {
 
-	@ValidEmail
-	@NotNull(message = "jest wymagane")
-	@Size(min = 1, message = "jest wymagane")
-	private String email;
+    @ValidEmail
+    @NotNull(message = "jest wymagane")
+    @Size(min = 1, message = "jest wymagane")
+    private String email;
 
-	private String oldPassword;
+    private String oldPassword;
 
-	private String oldEmail;
+    private String oldEmail;
 
-	@NotNull(message = "jest wymagane")
-	@Size(min = 1, message = "jest wymagane")
-	private String password;
-	
-	@NotNull(message = "jest wymagane")
-	@Size(min = 1, message = "jest wymagane")
-	private String matchingPassword;
+    @NotNull(message = "jest wymagane")
+    @Size(min = 1, message = "jest wymagane")
+    private String password;
 
-	@NotNull(message = "jest wymagane")
-	@Size(min = 1, message = "jest wymagane")
-	private String firstName;
+    @NotNull(message = "jest wymagane")
+    @Size(min = 1, message = "jest wymagane")
+    private String matchingPassword;
 
-	@NotNull(message = "jest wymagane")
-	@Size(min = 1, message = "jest wymagane")
-	private String lastName;
+    @NotNull(message = "jest wymagane")
+    @Size(min = 1, message = "jest wymagane")
+    private String firstName;
 
-	private String phoneNumber;
+    @NotNull(message = "jest wymagane")
+    @Size(min = 1, message = "jest wymagane")
+    private String lastName;
 
-	@DateTimeFormat(pattern="dd.MM.yyyy")
-	@Column(name = "date_of_birth")
-	@Past
-	private Date date;
+    private String phoneNumber;
 
-	public NewUser() {
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @Column(name = "date_of_birth")
+    @Past
+    private Date date;
 
-	}
+    public NewUser() {
 
-	public NewUser(String email, String password, String matchingPassword, String firstName, String lastName, Date date) {
-		this.email = email;
-		this.password = password;
-		this.matchingPassword = matchingPassword;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.date = date;
-	}
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public NewUser(String email, String password, String matchingPassword, String firstName, String lastName, Date date) {
+        this.email = email;
+        this.password = password;
+        this.matchingPassword = matchingPassword;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.date = date;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getMatchingPassword() {
-		return matchingPassword;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setMatchingPassword(String matchingPassword) {
-		this.matchingPassword = matchingPassword;
-	}
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public void setDate(Date  date) {
-		this.date = date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public String getOldPassword() {
-		return oldPassword;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setOldPassword(String oldPassword) {
-		this.oldPassword = oldPassword;
-	}
+    public String getOldPassword() {
+        return oldPassword;
+    }
 
-	public String getOldEmail() {
-		return oldEmail;
-	}
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
 
-	public void setOldEmail(String oldEmail) {
-		this.oldEmail = oldEmail;
-	}
+    public String getOldEmail() {
+        return oldEmail;
+    }
+
+    public void setOldEmail(String oldEmail) {
+        this.oldEmail = oldEmail;
+    }
 }

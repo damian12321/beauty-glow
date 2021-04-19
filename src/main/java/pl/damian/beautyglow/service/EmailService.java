@@ -12,6 +12,7 @@ public interface EmailService {
 
     public String textResetMessage(
             String name, String email, String key);
+
     public String textCancelVisitMessage(
             String name, String email, UsersTreatments UsersTreatments);
 }

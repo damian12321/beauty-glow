@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
 
 
 <head>
@@ -13,41 +13,41 @@
 </head>
 
 <body>
-    <div class="logo">
-        <a th:href="@{/}">Beauty Glow</a>
+<div class="logo">
+    <a th:href="@{/}">Beauty Glow</a>
+</div>
+<div class="navigation">
+    <ul>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Zabiegi</a>
+            <ol>
+                <li><a th:href="@{/permanentMakeup}">Makijaż permanentny</a></li>
+                <li><a th:href="@{/eyelashExtensions}">Przedłużanie rzęs</a></li>
+                <li><a th:href="@{/lifting}">Lifting brwi i rzęs</a></li>
+                <li><a th:href="@{/makeup}">Makijaż</a></li>
+                <li><a th:href="@{/priceList}">Cennik</a></li>
+            </ol>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/contact}">Kontakt</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="https://www.instagram.com/" target="_blank">Instagram</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/myAccount/login}">Umów się na wizytę</a>
+        </li>
+    </ul>
+</div>
+<div class="container">
+    <div class="picture">
+        <img th:src="@{css/images/picture1.jpg}" src="../static/css/images/picture1.jpg" alt="Bauty salon">
     </div>
-    <div class="navigation">
-        <ul>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Zabiegi</a>
-                <ol>
-                    <li><a th:href="@{/permanentMakeup}">Makijaż permanentny</a></li>
-                    <li><a th:href="@{/eyelashExtensions}">Przedłużanie rzęs</a></li>
-                    <li><a th:href="@{/lifting}">Lifting brwi i rzęs</a></li>
-                    <li><a th:href="@{/makeup}">Makijaż</a></li>
-                    <li><a th:href="@{/priceList}">Cennik</a></li>
-                </ol>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/contact}">Kontakt</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://www.instagram.com/" target="_blank">Instagram</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/myAccount/login}">Umów się na wizytę</a>
-            </li>
-        </ul>
-    </div>
-    <div class="container">
-        <div class="picture">
-            <img th:src="@{css/images/picture1.jpg}" src="../static/css/images/picture1.jpg" alt="Bauty salon">
-        </div>
-    </div>
-    </div>
-    <footer class="copyright">
-        © 2021 Damian Juruś
-    </footer>
+</div>
+</div>
+<footer class="copyright">
+    © 2021 Damian Juruś
+</footer>
 
 </body>
 

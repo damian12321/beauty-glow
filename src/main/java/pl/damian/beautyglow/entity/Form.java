@@ -9,25 +9,25 @@ public class Form {
     @Column(name = "user_id")
     private int id;
 
-    @Column(name="question1")
+    @Column(name = "question1")
     private int question1;
 
-    @Column(name="question2")
+    @Column(name = "question2")
     private int question2;
 
-    @Column(name="question3")
+    @Column(name = "question3")
     private int question3;
 
-    @Column(name="question4")
+    @Column(name = "question4")
     private int question4;
 
-    @Column(name="question5")
+    @Column(name = "question5")
     private int question5;
 
-    @Column(name="question6")
+    @Column(name = "question6")
     private int question6;
 
-    @Column(name="question7")
+    @Column(name = "question7")
     private int question7;
 
     public Form() {

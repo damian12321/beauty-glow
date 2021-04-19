@@ -28,25 +28,27 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public String textRegisterMessage(String name, String email, String key) {
-        String text="Witaj "+name+","+"\n"
-                + "kliknij w poniższy link aby aktywować swoje konto na stronie localhost:8080."+"\n"
-                + "http://localhost:8080/register/validate/"+email+"/"+key;
+        String text = "Witaj " + name + "," + "\n"
+                + "kliknij w poniższy link aby aktywować swoje konto na stronie localhost:8080." + "\n"
+                + "http://localhost:8080/register/validate/" + email + "/" + key;
         return text;
     }
+
     @Override
     public String textResetMessage(String name, String email, String key) {
-        String text="Witaj "+name+","+"\n"
-                + "kliknij w poniższy link aby zresetować swoje hasło na stronie localhost:8080."+"\n"
-                + "http://localhost:8080/reset/"+email+"/"+key;
+        String text = "Witaj " + name + "," + "\n"
+                + "kliknij w poniższy link aby zresetować swoje hasło na stronie localhost:8080." + "\n"
+                + "http://localhost:8080/reset/" + email + "/" + key;
         return text;
     }
+
     @Override
     public String textCancelVisitMessage(String name, String email, UsersTreatments usersTreatments) {
         String pattern = "dd.MM.yyyy HH:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(usersTreatments.getDate());
-        String text="Witaj "+name+","+"\n"
-                + "Z przykrością musimy Cię poinformować o odwołaniu Twojej wizyty w terminie "+date+".";
+        String text = "Witaj " + name + "," + "\n"
+                + "Z przykrością musimy Cię poinformować o odwołaniu Twojej wizyty w terminie " + date + ".";
         return text;
     }
 }
