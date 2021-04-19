@@ -56,6 +56,15 @@ public class NewUser {
 
 	}
 
+	public NewUser(String email, String password, String matchingPassword, String firstName, String lastName, Date date) {
+		this.email = email;
+		this.password = password;
+		this.matchingPassword = matchingPassword;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.date = date;
+	}
+
 	public String getPassword() {
 		return password;
 	}

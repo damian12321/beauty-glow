@@ -125,10 +125,9 @@ img {
   margin-left: auto;
   margin-right: auto;
   font-size: 3rem !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
   font-weight: 200 !important;
   text-align: center;
+  height: 50px;
 }
 
 .treatments-cointainer {
@@ -138,28 +137,28 @@ img {
 .treatment-1,
 .treatment-2,
 .treatment-3,
-.treatment-4{
-  margin-top: 30px;
-  font-size: 2rem !important;
-  margin-left: 135px;
+.treatment-4 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  font-size: 2rem;
   text-align: center;
   display: block;
   float: left;
-  width: 230px;
+  width: 21.74vw;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
   height: 350px;
 }
-.treatment-2{
+.treatment-2 {
   border-right: black 1px solid;
   border-left: black 1px solid;
-  padding-left: 100px;
-  padding-right: 100px;
 }
-.treatment-3{
-  border-right: black 1px solid;
-  padding-right: 100px;
+.treatment-4 {
+  border-left: black 1px solid;
 }
 .treatment-description {
-  font-size: 1rem !important;
+  font-size: 1rem;
 }
 footer {
   position: fixed;
@@ -168,19 +167,19 @@ footer {
   width: 99vw;
   min-width: 99vw;
 }
-.price-list-container
-{
+.price-list-container {
   text-align: center;
   width: 200px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 60px;
 }
-.contact-container
-{
+.contact-container {
   text-align: center;
   width: 200px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 100px;
 }
 a {
   text-decoration: none;

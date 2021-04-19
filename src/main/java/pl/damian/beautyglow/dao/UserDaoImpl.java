@@ -31,21 +31,21 @@ public class UserDaoImpl implements UserDao {
         try {
             theUser = theQuery.getSingleResult();
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
 
         return theUser;
     }
 
     @Override
-    public void save(User theUser) {
+    public void save(User theUser, boolean skipEmail) {
 
         Session currentSession = entityManager.unwrap(Session.class);
         currentSession.saveOrUpdate(theUser);
     }
 
     @Override
-    public boolean remindPassword(String email) {
+    public boolean remindPassword(String email,boolean skipEmail) {
         Session currentSession = entityManager.unwrap(Session.class);
         Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
@@ -55,12 +55,13 @@ public class UserDaoImpl implements UserDao {
             String key = new Random().nextInt(500000000) + "";
             theUser.setValidationKey(key);
             currentSession.update(theUser);
+            if(!skipEmail)
             emailService.sendSimpleMessage(email, "Resetowanie hasła",
                     emailService.textResetMessage(theUser.getFirstName(), theUser.getEmail(), theUser.getValidationKey()));
             return true;
 
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return false;
     }
@@ -81,7 +82,7 @@ public class UserDaoImpl implements UserDao {
                 return true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return false;
     }
@@ -99,7 +100,7 @@ public class UserDaoImpl implements UserDao {
                 return true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return false;
     }
@@ -118,7 +119,7 @@ public class UserDaoImpl implements UserDao {
             currentSession.update(theUser);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return false;
     }
@@ -131,11 +132,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void changeEmail(User user) {
+    public void changeEmail(User user,boolean skipEmail) {
         Session currentSession = entityManager.unwrap(Session.class);
         user.setIsActive(false);
         String key = new Random().nextInt(500000000) + "";
         user.setValidationKey(key);
+        if(!skipEmail)
         emailService.sendSimpleMessage(user.getEmail(), "Aktywacja konta",
                 emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
         currentSession.update(user);
@@ -143,9 +145,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         Session currentSession = entityManager.unwrap(Session.class);
-        List<User> userList=currentSession.createQuery("FROM User",User.class).getResultList();
+        List<User> userList = currentSession.createQuery("FROM User", User.class).getResultList();
         return userList;
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        User user=currentSession.get(User.class,id);
+        currentSession.delete(user);
     }
 }

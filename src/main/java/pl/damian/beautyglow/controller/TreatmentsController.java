@@ -1,22 +1,17 @@
 package pl.damian.beautyglow.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.damian.beautyglow.entity.Treatment;
-import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.entity.UsersTreatments;
 import pl.damian.beautyglow.service.EmailService;
 import pl.damian.beautyglow.service.TreatmentService;
-import pl.damian.beautyglow.service.UserService;
 import pl.damian.beautyglow.service.UsersTreatmentsService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller

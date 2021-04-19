@@ -14,8 +14,6 @@ public class TreatmentDaoImpl implements TreatmentDao {
     @Autowired
     private EntityManager entityManager;
 
-
-
     @Override
     public void deleteTreatment(int id) {
         Session currentSession = entityManager.unwrap(Session.class);

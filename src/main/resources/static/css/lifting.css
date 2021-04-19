@@ -124,11 +124,12 @@ img {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  font-size: 3rem !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  font-weight: 200 !important;
+  font-size: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 200;
   text-align: center;
+  height: 50px;
 }
 
 .treatments-cointainer {
@@ -137,21 +138,21 @@ img {
 }
 .treatment-1,
 .treatment-2 {
-  margin-top: 30px;
-  font-size: 2rem !important;
-  margin-left: 135px;
+  margin-top: 50px;
+  font-size: 2rem;
   text-align: center;
   display: block;
   float: left;
-  width: 35vw;
+  width: 46.55vw;
   height: 250px;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
 }
 .treatment-1 {
   border-right: black 1px solid;
-  padding-right: 150px;
 }
 .treatment-description {
-  font-size: 1rem !important;
+  font-size: 1rem;
 }
 footer {
   position: fixed;

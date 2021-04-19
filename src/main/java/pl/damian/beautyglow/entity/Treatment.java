@@ -3,7 +3,6 @@ package pl.damian.beautyglow.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -28,6 +27,16 @@ public class Treatment {
 
     @OneToMany(mappedBy = "treatment")
     List<UsersTreatments> usersTreatments;
+
+    public Treatment(String name, int duration, int cost, List<UsersTreatments> usersTreatmentsList) {
+        this.name = name;
+        this.duration = duration;
+        this.cost = cost;
+        this.usersTreatments=usersTreatmentsList;
+    }
+
+    public Treatment() {
+    }
 
     public int getId() {
         return id;
@@ -72,9 +81,11 @@ public class Treatment {
     @Override
     public String toString() {
         return "Treatment{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", duration=" + duration +
                 ", cost=" + cost +
+                ", usersTreatments=" + usersTreatments +
                 '}';
     }
 }

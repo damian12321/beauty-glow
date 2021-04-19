@@ -45,20 +45,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void save(NewUser newUser) {
+    public void save(NewUser newUser, boolean skipEmail) {
         User user = new User();
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setFirstName(newUser.getFirstName());
         user.setLastName(newUser.getLastName());
         user.setEmail(newUser.getEmail());
-        user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
+        if (!skipEmail)
+            user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
         user.setPhoneNumber(newUser.getPhoneNumber());
         user.setDate(newUser.getDate());
         String key = new Random().nextInt(500000000) + "";
         user.setValidationKey(key);
-        userDao.save(user);
-        emailService.sendSimpleMessage(newUser.getEmail(), "Aktywacja konta",
-                emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
+        userDao.save(user, false);
+        if (!skipEmail)
+            emailService.sendSimpleMessage(newUser.getEmail(), "Aktywacja konta",
+                    emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
     }
 
     @Override
@@ -90,8 +92,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean remindPassword(String email) {
-        return userDao.remindPassword(email);
+    public boolean remindPassword(String email, boolean skipEmail) {
+        return userDao.remindPassword(email, skipEmail);
     }
 
     @Override
@@ -109,13 +111,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void changeEmail(User user) {
-        userDao.changeEmail(user);
+    public void changeEmail(User user, boolean skipEmail) {
+        userDao.changeEmail(user, skipEmail);
     }
 
     @Override
     @Transactional
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(int id) {
+        userDao.deleteUser(id);
     }
 }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Form {
     @Id
     @Column(name = "user_id")
-    private Long id;
+    private int id;
 
     @Column(name="question1")
     private int question1;
@@ -33,11 +33,11 @@ public class Form {
     public Form() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

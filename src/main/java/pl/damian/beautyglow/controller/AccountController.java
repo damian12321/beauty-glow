@@ -130,7 +130,7 @@ public class AccountController {
         }
         User user = userService.findByEmailAddress(theNewUser.getOldEmail());
         user.setEmail(theNewUser.getEmail());
-        userService.changeEmail(user);
+        userService.changeEmail(user, false);
         return "registration-confirmation";
     }
 
@@ -385,7 +385,7 @@ public class AccountController {
 
     @PostMapping("/cancelVisit")
     public String cancelVisit(@RequestParam("usersTreatmentsId") int id, Model theModel) {
-        UsersTreatments usersTreatments = usersTreatmentsService.getUsersTreatments(id);
+        UsersTreatments usersTreatments = usersTreatmentsService.getUsersTreatmentsById(id);
         usersTreatments.setStatus("cancelled");
         theModel.addAttribute("usersTreatments", usersTreatments);
         usersTreatmentsService.updateUsersTreatments(usersTreatments);
@@ -398,16 +398,18 @@ public class AccountController {
         theModel.addAttribute("form", form);
         return "user-form";
     }
+
     @GetMapping("/editUserForm")
-    public String editUserForm(Authentication authentication,Model theModel) {
-        User user= userService.findByEmailAddress(authentication.getName());
+    public String editUserForm(Authentication authentication, Model theModel) {
+        User user = userService.findByEmailAddress(authentication.getName());
         Form form = user.getForm();
         theModel.addAttribute("form", form);
         return "user-form";
     }
+
     @PostMapping("/saveUserForm")
     public String userForm(@Valid @ModelAttribute Form form, Authentication authentication) {
-        User user= userService.findByEmailAddress(authentication.getName());
+        User user = userService.findByEmailAddress(authentication.getName());
         form.setId(user.getId());
         user.setForm(form);
         userService.updateData(user);

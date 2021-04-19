@@ -14,7 +14,7 @@ public interface UsersTreatmentsService {
 
     public void updateUsersTreatments(UsersTreatments usersTreatments);
 
-    public UsersTreatments getUsersTreatments(int id);
+    public UsersTreatments getUsersTreatmentsById(int id);
 
     public List<UsersTreatments> getUsersTreatments();
 

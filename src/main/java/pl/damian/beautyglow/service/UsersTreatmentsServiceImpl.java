@@ -4,9 +4,7 @@ package pl.damian.beautyglow.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.damian.beautyglow.dao.TreatmentDao;
 import pl.damian.beautyglow.dao.UsersTreatmentsDao;
-import pl.damian.beautyglow.entity.Treatment;
 import pl.damian.beautyglow.entity.UsersTreatments;
 
 import java.util.Date;
@@ -34,8 +32,8 @@ public class UsersTreatmentsServiceImpl implements UsersTreatmentsService {
     }
 
     @Override
-    public UsersTreatments getUsersTreatments(int id) {
-        return usersTreatmentsDao.getUsersTreatments(id);
+    public UsersTreatments getUsersTreatmentsById(int id) {
+        return usersTreatmentsDao.getUsersTreatmentsById(id);
     }
 
     @Override

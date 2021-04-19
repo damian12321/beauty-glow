@@ -21,6 +21,7 @@ public class LoginController {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
+
     @Autowired
     private UserService userService;
 
@@ -46,7 +47,7 @@ public class LoginController {
         if (theBindingResult.hasErrors()) {
             return "password-remind";
         }
-        boolean result = userService.remindPassword(email);
+        boolean result = userService.remindPassword(email, false);
         if (result) {
             return "remind-confirm";
         } else {

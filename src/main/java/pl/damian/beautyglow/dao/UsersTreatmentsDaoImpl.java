@@ -33,7 +33,7 @@ public class UsersTreatmentsDaoImpl implements UsersTreatmentsDao{
     }
 
     @Override
-    public UsersTreatments getUsersTreatments(int id) {
+    public UsersTreatments getUsersTreatmentsById(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
         UsersTreatments usersTreatments=currentSession.get(UsersTreatments.class,id);
         return usersTreatments;
