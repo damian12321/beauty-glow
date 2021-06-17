@@ -93,13 +93,13 @@
                             <div class="user-details-data">
                                 <p th:text="${user.email}">1</p>
                             </div>
-                            <div class="user-details">Numer kontaktowy:</div>
-                            <div class="user-details-data">
-                                <p th:text="${user.phoneNumber}">1</p>
-                            </div>
                             <div class="user-details">Data urodzenia:</div>
                             <div class="user-details-data">
                                 <p th:text="${#dates.format(user.date, 'dd.MM.yyyy')}">1</p>
+                            </div>
+                            <div class="user-details">Numer kontaktowy:</div>
+                            <div class="user-details-data">
+                                <p th:text="${user.phoneNumber}">1</p>
                             </div>
 
                         </div>
