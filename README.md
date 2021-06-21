@@ -93,3 +93,10 @@ $ java -jar target/beauty-glow.jar
 ```
 
 The app will start running at http://localhost:8080.
+
+To test the application you can log in as administrator by entering:
+email: admin 
+password: admin
+or as a customer by entering:
+email: customer 
+password: customer
