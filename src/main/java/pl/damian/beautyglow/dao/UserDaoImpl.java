@@ -24,14 +24,13 @@ public class UserDaoImpl implements UserDao {
     public User findByEmailAddress(String email) {
 
         Session currentSession = entityManager.unwrap(Session.class);
-
         Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
         User theUser = null;
         try {
             theUser = theQuery.getSingleResult();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         return theUser;
@@ -49,7 +48,7 @@ public class UserDaoImpl implements UserDao {
         Session currentSession = entityManager.unwrap(Session.class);
         Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
-        User theUser = null;
+        User theUser;
         try {
             theUser = theQuery.getSingleResult();
             String key = new Random().nextInt(500000000) + "";
@@ -61,7 +60,7 @@ public class UserDaoImpl implements UserDao {
             return true;
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return false;
     }
@@ -72,7 +71,7 @@ public class UserDaoImpl implements UserDao {
         Session currentSession = entityManager.unwrap(Session.class);
         Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
-        User theUser = null;
+        User theUser;
         try {
             theUser = theQuery.getSingleResult();
             boolean result = validationKey.equals(theUser.getValidationKey());
@@ -82,7 +81,7 @@ public class UserDaoImpl implements UserDao {
                 return true;
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return false;
     }
@@ -92,7 +91,7 @@ public class UserDaoImpl implements UserDao {
         Session currentSession = entityManager.unwrap(Session.class);
         Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
-        User theUser = null;
+        User theUser;
         try {
             theUser = theQuery.getSingleResult();
             boolean result = validationKey.equals(theUser.getValidationKey());
@@ -100,7 +99,7 @@ public class UserDaoImpl implements UserDao {
                 return true;
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return false;
     }
@@ -119,7 +118,7 @@ public class UserDaoImpl implements UserDao {
             currentSession.update(theUser);
             return true;
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return false;
     }

@@ -30,8 +30,7 @@ public class TreatmentDaoImpl implements TreatmentDao {
     @Override
     public Treatment getTreatment(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        Treatment treatment = currentSession.get(Treatment.class, id);
-        return treatment;
+        return currentSession.get(Treatment.class, id);
     }
 
     @Override

@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface UsersTreatmentsService {
 
-    public void addUsersTreatments(UsersTreatments usersTreatments);
+     void addUsersTreatments(UsersTreatments usersTreatments);
 
-    public void deleteUsersTreatments(int id);
+     void deleteUsersTreatments(int id);
 
-    public void updateUsersTreatments(UsersTreatments usersTreatments);
+     void updateUsersTreatments(UsersTreatments usersTreatments);
 
-    public UsersTreatments getUsersTreatmentsById(int id);
+     UsersTreatments getUsersTreatmentsById(int id);
 
-    public List<UsersTreatments> getUsersTreatments();
+     List<UsersTreatments> getUsersTreatments();
 
-    public List<UsersTreatments> getUsersTreatmentsOnSpecificDay(Date date);
+     List<UsersTreatments> getUsersTreatmentsOnSpecificDay(Date date);
 }

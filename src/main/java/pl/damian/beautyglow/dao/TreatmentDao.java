@@ -7,11 +7,11 @@ import java.util.List;
 public interface TreatmentDao {
 
 
-    public void deleteTreatment(int id);
+     void deleteTreatment(int id);
 
-    public void saveTreatment(Treatment treatment);
+     void saveTreatment(Treatment treatment);
 
-    public Treatment getTreatment(int id);
+     Treatment getTreatment(int id);
 
-    public List<Treatment> getTreatments();
+     List<Treatment> getTreatments();
 }

@@ -19,14 +19,10 @@ import java.util.Properties;
 @Configuration
 @EnableWebSecurity
 public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-
     @Autowired
-    public DemoSecurityConfig(UserService userService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
-        this.userService = userService;
-        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
-    }
+    private UserService userService;
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

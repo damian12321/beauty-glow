@@ -15,7 +15,6 @@ public class TreatmentServiceImpl implements TreatmentService {
     @Autowired
     private TreatmentDao treatmentDao;
 
-
     @Override
     public void deleteTreatment(int id) {
         treatmentDao.deleteTreatment(id);

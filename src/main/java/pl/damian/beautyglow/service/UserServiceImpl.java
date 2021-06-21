@@ -14,10 +14,7 @@ import pl.damian.beautyglow.entity.Role;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.user.NewUser;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,7 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(newUser.getLastName());
         user.setEmail(newUser.getEmail());
         if (!skipEmail)
-            user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_CUSTOMER")));
+            user.setRoles(Collections.singletonList(roleDao.findRoleByName("ROLE_CUSTOMER")));
         user.setPhoneNumber(newUser.getPhoneNumber());
         user.setDate(newUser.getDate());
         String key = new Random().nextInt(500000000) + "";

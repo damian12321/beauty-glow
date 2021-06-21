@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.damian.beautyglow.entity.User;
 import pl.damian.beautyglow.service.UserService;
 import pl.damian.beautyglow.user.NewUser;
+import pl.damian.beautyglow.utils.AccountHelper;
 
 import javax.validation.Valid;
 
@@ -58,14 +59,7 @@ public class LoginController {
     @GetMapping("/reset/{email}/{key}")
     public String resetPassword(@PathVariable String email, @PathVariable String key, Model theModel) {
         if (userService.resetPassword(email, key)) {
-            User user = userService.findByEmailAddress(email);
-            NewUser newUser = new NewUser();
-            newUser.setEmail(email);
-            newUser.setFirstName(user.getFirstName());
-            newUser.setLastName(user.getLastName());
-            newUser.setPhoneNumber(user.getPhoneNumber());
-            newUser.setDate(user.getDate());
-            theModel.addAttribute("newUser", newUser);
+            AccountHelper.transformUserToNewUser(email, theModel, userService);
             return "reset-password";
         } else {
             return "reset-denied";

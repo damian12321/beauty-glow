@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface TreatmentService {
 
-    public void saveTreatment(Treatment treatment);
+     void saveTreatment(Treatment treatment);
 
-    public void deleteTreatment(int id);
+     void deleteTreatment(int id);
 
-    public Treatment getTreatment(int id);
+     Treatment getTreatment(int id);
 
-    public List<Treatment> getTreatments();
+     List<Treatment> getTreatments();
 }

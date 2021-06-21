@@ -16,6 +16,7 @@ import pl.damian.beautyglow.service.TreatmentService;
 import pl.damian.beautyglow.service.UserService;
 import pl.damian.beautyglow.service.UsersTreatmentsService;
 import pl.damian.beautyglow.user.NewUser;
+import pl.damian.beautyglow.utils.AccountHelper;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -33,7 +34,6 @@ public class AccountController {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UsersTreatmentsService usersTreatmentsService;
-
 
     @GetMapping("/info")
     public String showAccount(Authentication authentication, Model theModel) {
@@ -55,7 +55,6 @@ public class AccountController {
                              BindingResult theBindingResult) {
 
         if (theBindingResult.hasErrors()) {
-
             return "edit-data";
         }
         User oldUser = userService.findByEmailAddress(user.getEmail());
@@ -67,14 +66,7 @@ public class AccountController {
     @GetMapping("/changePassword")
     public String changePassword(@RequestParam("email") String email,
                                  Model theModel) {
-        User user = userService.findByEmailAddress(email);
-        NewUser newUser = new NewUser();
-        newUser.setEmail(email);
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
-        newUser.setPhoneNumber(user.getPhoneNumber());
-        newUser.setDate(user.getDate());
-        theModel.addAttribute("newUser", newUser);
+        AccountHelper.transformUserToNewUser(email, theModel, userService);
         return "change-password";
     }
 
@@ -215,35 +207,17 @@ public class AccountController {
         LinkedHashMap<Date, Integer> tempAvailableHours = new LinkedHashMap<>();
         List<Date> availableHours = new ArrayList<>();
         List<UsersTreatments> usersTreatmentsList = usersTreatmentsService.getUsersTreatmentsOnSpecificDay(date);
-        for (int i = 0; i < hoursOfWork * 60; i += 15) {
-            int tempMinutes = i % 60;
-            int tempHour = i / 60;
-            Date tempDate = new Date();
-            tempDate.setSeconds(0);
-            tempDate.setMinutes(tempMinutes);
-            tempDate.setHours(tempHour + startHourOfWork);
-            allHours.add(tempDate);
-        }
+        getHoursOfWork(hoursOfWork, startHourOfWork, allHours);
 
-        for (UsersTreatments usersTreatments : usersTreatmentsList) {
-            Date startDate = usersTreatments.getDate();
-            startDate.setSeconds(0);
-            for (int i = 0; i < usersTreatments.getTreatment().getDuration(); i += 15) {
-                int tempMinutes = i % 60;
-                int tempHour = i / 60;
-                Date tempDate = new Date();
-                tempDate.setTime(startDate.getTime());
-                tempDate.setMinutes(tempDate.getMinutes() + tempMinutes);
-                tempDate.setHours(tempDate.getHours() + tempHour);
-                bookedHours.add(tempDate);
-            }
-        }
+        getBookedHours(bookedHours, usersTreatmentsList);
         StringBuilder sb = new StringBuilder();
         for (Date date2 : allHours) {
             boolean reserved = false;
             for (Date date1 : bookedHours) {
-                if ((date1.getMinutes() == date2.getMinutes()) && date1.getHours() == date2.getHours())
+                if ((date1.getMinutes() == date2.getMinutes()) && date1.getHours() == date2.getHours()) {
                     reserved = true;
+                    break;
+                }
             }
             if (reserved) {
                 sb.append("r");
@@ -251,17 +225,7 @@ public class AccountController {
                 sb.append("f");
             }
         }
-        int temp1 = 0;
-        for (int i = sb.toString().length() - 1; i >= 0; i--) {
-            if (sb.toString().charAt(i) == 'f') {
-                temp1++;
-                tempAvailableHours.put(allHours.get(i), temp1);
-            } else {
-                temp1 = 0;
-                tempAvailableHours.put(allHours.get(i), temp1);
-            }
-        }
-        int iterationsNeeded = treatment.getDuration() / 15;
+        int iterationsNeeded = AccountHelper.getAvailableHours(treatment, allHours, tempAvailableHours, sb);
         for (Map.Entry<Date, Integer> map : tempAvailableHours.entrySet()) {
             if (map.getValue() >= iterationsNeeded) {
                 availableHours.add(map.getKey());
@@ -276,6 +240,34 @@ public class AccountController {
             return "no-visits-available";
         }
         return "visit-available-hours";
+    }
+
+    private void getBookedHours(List<Date> bookedHours, List<UsersTreatments> usersTreatmentsList) {
+        for (UsersTreatments usersTreatments : usersTreatmentsList) {
+            Date startDate = usersTreatments.getDate();
+            startDate.setSeconds(0);
+            for (int i = 0; i < usersTreatments.getTreatment().getDuration(); i += 15) {
+                int tempMinutes = i % 60;
+                int tempHour = i / 60;
+                Date tempDate = new Date();
+                tempDate.setTime(startDate.getTime());
+                tempDate.setMinutes(tempDate.getMinutes() + tempMinutes);
+                tempDate.setHours(tempDate.getHours() + tempHour);
+                bookedHours.add(tempDate);
+            }
+        }
+    }
+
+    private void getHoursOfWork(int hoursOfWork, int startHourOfWork, List<Date> allHours) {
+        for (int i = 0; i < hoursOfWork * 60; i += 15) {
+            int tempMinutes = i % 60;
+            int tempHour = i / 60;
+            Date tempDate = new Date();
+            tempDate.setSeconds(0);
+            tempDate.setMinutes(tempMinutes);
+            tempDate.setHours(tempHour + startHourOfWork);
+            allHours.add(tempDate);
+        }
     }
 
     @PostMapping("/processBookingVisit")
@@ -309,37 +301,16 @@ public class AccountController {
             }
         }
         Treatment treatment = treatmentService.getTreatment(id);
-        List<Date> allHours = new ArrayList();
+        List<Date> allHours = new ArrayList<>();
         List<Date> bookedHours = new ArrayList<>();
         LinkedHashMap<Date, Integer> tempAvailableHours = new LinkedHashMap<>();
-        List<Date> availableHours = new ArrayList<>();
         List<UsersTreatments> usersTreatmentsList = usersTreatmentsService.getUsersTreatmentsOnSpecificDay(date);
         date.setHours(Integer.parseInt(hour));
         date.setMinutes(Integer.parseInt(minutes));
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < hoursOfWork * 60; i += 15) {
-            int tempMinutes = i % 60;
-            int tempHour = i / 60;
-            Date tempDate = new Date();
-            tempDate.setSeconds(0);
-            tempDate.setMinutes(tempMinutes);
-            tempDate.setHours(tempHour + startHourOfWork);
-            allHours.add(tempDate);
-        }
+        getHoursOfWork(hoursOfWork, startHourOfWork, allHours);
         boolean isAvailable = false;
-        for (UsersTreatments usersTreatments : usersTreatmentsList) {
-            Date startDate = usersTreatments.getDate();
-            startDate.setSeconds(0);
-            for (int i = 0; i < usersTreatments.getTreatment().getDuration(); i += 15) {
-                int tempMinutes = i % 60;
-                int tempHour = i / 60;
-                Date tempDate = new Date();
-                tempDate.setTime(startDate.getTime());
-                tempDate.setMinutes(tempDate.getMinutes() + tempMinutes);
-                tempDate.setHours(tempDate.getHours() + tempHour);
-                bookedHours.add(tempDate);
-            }
-        }
+        getBookedHours(bookedHours, usersTreatmentsList);
         for (Date date5 : allHours) {
             boolean reserved = false;
             for (Date date1 : bookedHours) {
@@ -352,18 +323,7 @@ public class AccountController {
                 sb.append("f");
             }
         }
-        int temp2 = 0;
-        for (int i = sb.toString().length() - 1; i >= 0; i--) {
-            if (sb.toString().charAt(i) == 'f') {
-                temp2++;
-                tempAvailableHours.put(allHours.get(i), temp2);
-            } else {
-                temp2 = 0;
-                tempAvailableHours.put(allHours.get(i), temp2);
-            }
-        }
-        Collections.sort(availableHours, (o1, o2) -> (int) (o1.getTime() - o2.getTime()));
-        int iterationsNeeded = treatment.getDuration() / 15;
+        int iterationsNeeded = AccountHelper.getAvailableHours(treatment, allHours, tempAvailableHours, sb);
         for (Map.Entry<Date, Integer> map : tempAvailableHours.entrySet()) {
             if ((date.getMinutes() == map.getKey().getMinutes()) && (date.getHours() == map.getKey().getHours())) {
                 if (map.getValue() >= iterationsNeeded) {
