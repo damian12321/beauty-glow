@@ -1,6 +1,5 @@
 ## Table of contents
 * [General info](#general-info)
-* [Project assumptions](#project-assumptions)
 * [Application idea](#application-idea)
 * [Technologies](#technologies)
 * [Status](#status)
@@ -9,14 +8,6 @@
 
 ## General info
 This project is a website of a beauty salon with the possibility of registering a client for cosmetic treatments.
-
-## Project assumptions
-* Use SQL Database to storage the data
-* Use Spring Boot
-* Use Spring Security
-* Use Spring MVC
-* Use Hibernate
-* Use JUnit 5
 
 ## Application idea
 * Every client can create the account 
@@ -29,18 +20,14 @@ This project is a website of a beauty salon with the possibility of registering 
 
 ## Technologies
 Project is created with:
-* Java 8
-* Maven 3
-* Spring Boot 2
-* Spring Security
-* Spring MVC
+* Java
+* Maven
+* Spring Boot
 * Hibernate
-* JUnit 5
+* JUnit
 * Thymeleaf
-* HTML5
 * CSS
-* Tomcat
-
+* H2 Database
 ## Status
 In the future, the application will be used by a beauty salon. 
 The appearance of the website will be changed and new features will be added.
