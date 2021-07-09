@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface UsersTreatmentsDao {
+
      void addUsersTreatments(UsersTreatments usersTreatments);
 
      void deleteUsersTreatments(int id);

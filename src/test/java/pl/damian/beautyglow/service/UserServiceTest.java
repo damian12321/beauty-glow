@@ -32,28 +32,28 @@ class UserServiceTest {
 
     @Test
     @Order(2)
-    void findByEmailAddress() {
+    void shouldFindUserByEmailAddress() {
         user = userService.findByEmailAddress(newUser.getEmail());
         assertNotNull(user);
     }
 
     @Test
     @Order(1)
-    void save() {
+    void shouldSaveUser() {
         userService.save(newUser, true);
         assertNotNull(newUser);
     }
 
     @Test
     @Order(8)
-    void resetPassword() {
+    void shouldResetUserPassword() {
         assertTrue(userService.resetPassword(user.getEmail(),user.getValidationKey()));
 
     }
 
     @Test
     @Order(4)
-    void validateEmailAddress() {
+    void shouldValidateUserEmailAddress() {
         userService.validateEmailAddress(user.getEmail(), "bad Key");
         user = userService.findByEmailAddress(newUser.getEmail());
         assertFalse(user.getIsActive());
@@ -65,7 +65,7 @@ class UserServiceTest {
 
     @Test
     @Order(7)
-    void remindPassword() {
+    void shouldRemindUserPassword() {
         String key=user.getValidationKey();
         userService.remindPassword(user.getEmail(),true);
         user=userService.findByEmailAddress(user.getEmail());
@@ -74,13 +74,13 @@ class UserServiceTest {
 
     @Test
     @Order(9)
-    void changePassword() {
+    void shouldChangeUserPassword() {
         assertTrue(userService.changePassword(user.getEmail(),"123"));
     }
 
     @Test
     @Order(5)
-    void updateData() {
+    void shouldUpdateUserData() {
         user.setLastName("test1");
         userService.updateData(user);
         User tempUser=userService.findByEmailAddress(user.getEmail());
@@ -89,7 +89,7 @@ class UserServiceTest {
 
     @Test
     @Order(6)
-    void changeEmail() {
+    void shouldChangeUserEmail() {
         user.setEmail("newEmail");
         userService.changeEmail(user,true);
         User tempUser=userService.findByEmailAddress(user.getEmail());
@@ -98,14 +98,14 @@ class UserServiceTest {
 
     @Test
     @Order(3)
-    void getAllUsers() {
+    void shouldReturnAllUsers() {
         List<User> userList=userService.getAllUsers();
         assertTrue(userList.size()>0);
     }
 
     @Test
     @Order(10)
-    void delete() {
+    void shouldDeleteUser() {
         userService.deleteUser(user.getId());
         User tempUser=userService.findByEmailAddress(user.getEmail());
         assertNull(tempUser);

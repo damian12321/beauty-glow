@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 @Transactional
 public class TreatmentServiceImpl implements TreatmentService {
+
     @Autowired
     private TreatmentDao treatmentDao;
 

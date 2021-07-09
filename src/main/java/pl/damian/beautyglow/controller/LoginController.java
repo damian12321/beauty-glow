@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 public class LoginController {
+
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);

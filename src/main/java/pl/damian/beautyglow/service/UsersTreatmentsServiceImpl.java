@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 @Transactional
 public class UsersTreatmentsServiceImpl implements UsersTreatmentsService {
+
     @Autowired
     private UsersTreatmentsDao usersTreatmentsDao;
 

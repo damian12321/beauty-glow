@@ -15,16 +15,21 @@ import java.util.Random;
 @Repository
 public class UserDaoImpl implements UserDao {
 
+    private final Session session;
+
+    private final EmailService emailService;
+
     @Autowired
-    private EntityManager entityManager;
-    @Autowired
-    private EmailService emailService;
+    public UserDaoImpl(EntityManager entityManager, EmailService emailService) {
+        this.session = entityManager.unwrap(Session.class);
+        this.emailService = emailService;
+
+    }
 
     @Override
     public User findByEmailAddress(String email) {
 
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
+        Query<User> theQuery = session.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
         User theUser = null;
         try {
@@ -38,22 +43,19 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void save(User theUser, boolean skipEmail) {
-
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.saveOrUpdate(theUser);
+        session.saveOrUpdate(theUser);
     }
 
     @Override
     public boolean remindPassword(String email, boolean skipEmail) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
+        Query<User> theQuery = session.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
         User theUser;
         try {
             theUser = theQuery.getSingleResult();
             String key = new Random().nextInt(500000000) + "";
             theUser.setValidationKey(key);
-            currentSession.update(theUser);
+            session.update(theUser);
             if (!skipEmail)
                 emailService.sendSimpleMessage(email, "Resetowanie hasła",
                         emailService.textResetMessage(theUser.getFirstName(), theUser.getEmail(), theUser.getValidationKey()));
@@ -68,8 +70,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean validateEmailAddress(String email, String validationKey) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
+        Query<User> theQuery = session.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
         User theUser;
         try {
@@ -77,7 +78,7 @@ public class UserDaoImpl implements UserDao {
             boolean result = validationKey.equals(theUser.getValidationKey());
             if (result && !theUser.getIsActive()) {
                 theUser.setIsActive(true);
-                currentSession.update(theUser);
+                session.update(theUser);
                 return true;
             }
         } catch (Exception e) {
@@ -88,8 +89,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean resetPassword(String email, String validationKey) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
+        Query<User> theQuery = session.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
         User theUser;
         try {
@@ -106,16 +106,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean changePassword(String email, String password) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<User> theQuery = currentSession.createQuery("from User where email=:theEmail", User.class);
+        Query<User> theQuery = session.createQuery("from User where email=:theEmail", User.class);
         theQuery.setParameter("theEmail", email);
-        User theUser = null;
+        User theUser;
         try {
             theUser = theQuery.getSingleResult();
             theUser.setPassword(password);
             String key = new Random().nextInt(500000000) + "";
             theUser.setValidationKey(key);
-            currentSession.update(theUser);
+            session.update(theUser);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,35 +124,28 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateData(User user) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.merge(user);
-
+        session.merge(user);
     }
 
     @Override
     public void changeEmail(User user, boolean skipEmail) {
-        Session currentSession = entityManager.unwrap(Session.class);
         user.setIsActive(false);
         String key = new Random().nextInt(500000000) + "";
         user.setValidationKey(key);
         if (!skipEmail)
             emailService.sendSimpleMessage(user.getEmail(), "Aktywacja konta",
                     emailService.textRegisterMessage(user.getFirstName(), user.getEmail(), user.getValidationKey()));
-        currentSession.update(user);
-
+        session.update(user);
     }
 
     @Override
     public List<User> getAllUsers() {
-        Session currentSession = entityManager.unwrap(Session.class);
-        List<User> userList = currentSession.createQuery("FROM User", User.class).getResultList();
-        return userList;
+        return session.createQuery("FROM User", User.class).getResultList();
     }
 
     @Override
     public void deleteUser(int id) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        User user = currentSession.get(User.class, id);
-        currentSession.delete(user);
+        User user = session.get(User.class, id);
+        session.delete(user);
     }
 }

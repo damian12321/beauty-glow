@@ -11,32 +11,32 @@ import java.util.List;
 
 @Repository
 public class TreatmentDaoImpl implements TreatmentDao {
+
+    private final Session session;
     @Autowired
-    private EntityManager entityManager;
+    public TreatmentDaoImpl(EntityManager entityManager) {
+        session = entityManager.unwrap(Session.class);
+    }
 
     @Override
     public void deleteTreatment(int id) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Treatment treatment = currentSession.get(Treatment.class, id);
-        currentSession.delete(treatment);
+        Treatment treatment = session.get(Treatment.class, id);
+        session.delete(treatment);
     }
 
     @Override
     public void saveTreatment(Treatment treatment) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.saveOrUpdate(treatment);
+        session.saveOrUpdate(treatment);
     }
 
     @Override
     public Treatment getTreatment(int id) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        return currentSession.get(Treatment.class, id);
+        return session.get(Treatment.class, id);
     }
 
     @Override
     public List<Treatment> getTreatments() {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<Treatment> query = currentSession.createQuery("FROM Treatment");
+        Query<Treatment> query = session.createQuery("FROM Treatment");
         return query.getResultList();
     }
 }

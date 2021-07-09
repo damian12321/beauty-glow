@@ -11,14 +11,15 @@ import javax.persistence.EntityManager;
 @Repository
 public class RoleDaoImpl implements RoleDao {
 
+    private final Session session;
     @Autowired
-    private EntityManager entityManager;
+    public RoleDaoImpl(EntityManager entityManager) {
+        session = entityManager.unwrap(Session.class);
+    }
 
     @Override
     public Role findRoleByName(String theRoleName) {
-
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<Role> theQuery = currentSession.createQuery("from Role where name=:roleName", Role.class);
+        Query<Role> theQuery = session.createQuery("from Role where name=:roleName", Role.class);
         theQuery.setParameter("roleName", theRoleName);
 
         Role theRole = null;

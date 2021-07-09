@@ -25,7 +25,7 @@ class TreatmentServiceTest {
     }
     @Test
     @Order(4)
-    void deleteTreatment() {
+    void shouldDeleteTreatment() {
         treatmentService.deleteTreatment(treatment.getId());
         Treatment treatment1=treatmentService.getTreatment(treatment.getId());
         assertNull(treatment1);
@@ -33,7 +33,7 @@ class TreatmentServiceTest {
 
     @Test
     @Order(1)
-    void saveTreatment() {
+    void shouldSaveTreatment() {
         treatmentService.saveTreatment(treatment);
         assertTrue(treatment.getId()>0);
         treatment.setCost(200);
@@ -44,14 +44,14 @@ class TreatmentServiceTest {
 
     @Test
     @Order(2)
-    void getTreatment() {
+    void shouldReturnTreatment() {
         Treatment treatment1=treatmentService.getTreatment(treatment.getId());
         assertTrue(treatment1.getId()>0);
     }
 
     @Test
     @Order(3)
-    void getTreatments() {
+    void shouldReturnTreatments() {
         List<Treatment> treatmentList=treatmentService.getTreatments();
         assertTrue(treatmentList.size()>0);
     }

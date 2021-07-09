@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class AccountHelper {
+
     public static void transformUserToNewUser(@RequestParam("email") String email, Model theModel, UserService userService) {
         User user = userService.findByEmailAddress(email);
         NewUser newUser = new NewUser();

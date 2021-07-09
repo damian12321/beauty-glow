@@ -19,6 +19,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebSecurity
 public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private UserService userService;
     @Autowired

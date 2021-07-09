@@ -13,6 +13,7 @@ import java.util.List;
 @Configuration
 @EnableScheduling
 public class SchedulingConfig {
+
     @Autowired
     UsersTreatmentsService usersTreatmentsService;
 

@@ -27,8 +27,8 @@ class UsersTreatmentsServiceTest {
 
     @Test
     @Order(1)
-    void addUsersTreatments() {
-        user=userService.findByEmailAddress("damianjurus@wp.pl");
+    void shouldAddUsersTreatments() {
+        user=userService.findByEmailAddress("admin@gmail.com");
         Treatment treatment=treatmentService.getTreatment(1);
         usersTreatments=new UsersTreatments(user,treatment,new Date(),"planned");
         usersTreatmentsService.addUsersTreatments(usersTreatments);
@@ -37,7 +37,7 @@ class UsersTreatmentsServiceTest {
 
     @Test
     @Order(6)
-    void deleteUsersTreatments() {
+    void shouldDeleteUsersTreatments() {
         usersTreatmentsService.deleteUsersTreatments(usersTreatments.getId());
         UsersTreatments tempUserTreatments=usersTreatmentsService.getUsersTreatmentsById(usersTreatments.getId());
         assertNull(tempUserTreatments);
@@ -45,7 +45,7 @@ class UsersTreatmentsServiceTest {
 
     @Test
     @Order(5)
-    void updateUsersTreatments() {
+    void shouldUpdateUsersTreatments() {
         usersTreatments.setStatus("cancelled");
         usersTreatmentsService.updateUsersTreatments(usersTreatments);
         UsersTreatments tempUserTreatments=usersTreatmentsService.getUsersTreatmentsById(usersTreatments.getId());
@@ -54,21 +54,21 @@ class UsersTreatmentsServiceTest {
 
     @Test
     @Order(2)
-    void getUsersTreatments() {
+    void shouldReturnUsersTreatments() {
         List<UsersTreatments> usersTreatmentsList=usersTreatmentsService.getUsersTreatments();
         assertTrue(usersTreatmentsList.size()>0);
     }
 
     @Test
     @Order(4)
-    void getUsersTreatmentsById() {
+    void shouldReturnUsersTreatmentsById() {
         UsersTreatments tempUserTreatments=usersTreatmentsService.getUsersTreatmentsById(usersTreatments.getId());
         assertNotNull(tempUserTreatments);
     }
 
     @Test
     @Order(3)
-    void getUsersTreatmentsOnSpecificDay() {
+    void shouldReturnUsersTreatmentsOnSpecificDay() {
         List<UsersTreatments> usersTreatmentsList=usersTreatmentsService.getUsersTreatmentsOnSpecificDay(new Date());
         assertTrue(usersTreatmentsList.size()>0);
     }

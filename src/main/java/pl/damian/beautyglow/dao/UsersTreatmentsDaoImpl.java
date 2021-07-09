@@ -12,46 +12,44 @@ import java.util.List;
 
 @Repository
 public class UsersTreatmentsDaoImpl implements UsersTreatmentsDao {
+
+    private final Session session;
     @Autowired
-    private EntityManager entityManager;
+    public UsersTreatmentsDaoImpl(EntityManager entityManager) {
+        session = entityManager.unwrap(Session.class);
+    }
 
     @Override
     public void addUsersTreatments(UsersTreatments usersTreatments) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.save(usersTreatments);
+        session.save(usersTreatments);
     }
 
     @Override
     public void deleteUsersTreatments(int id) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        UsersTreatments usersTreatments = currentSession.get(UsersTreatments.class, id);
-        currentSession.delete(usersTreatments);
+        UsersTreatments usersTreatments = session.get(UsersTreatments.class, id);
+        session.delete(usersTreatments);
     }
 
     @Override
     public void updateUsersTreatments(UsersTreatments usersTreatments) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.update(usersTreatments);
+        session.update(usersTreatments);
     }
 
     @Override
     public UsersTreatments getUsersTreatmentsById(int id) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        UsersTreatments usersTreatments = currentSession.get(UsersTreatments.class, id);
+        UsersTreatments usersTreatments = session.get(UsersTreatments.class, id);
         return usersTreatments;
     }
 
     @Override
     public List<UsersTreatments> getUsersTreatments() {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<UsersTreatments> query = currentSession.createQuery("FROM UsersTreatments");
+        Query<UsersTreatments> query = session.createQuery("FROM UsersTreatments");
         return query.getResultList();
     }
 
     @Override
     public List<UsersTreatments> getUsersTreatmentsOnSpecificDay(Date date) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        Query<UsersTreatments> query = currentSession.createQuery("FROM UsersTreatments WHERE (date between :date1 AND :date2) " +
+        Query<UsersTreatments> query = session.createQuery("FROM UsersTreatments WHERE (date between :date1 AND :date2) " +
                 "AND status='planned'");
         Date date1 = new Date();
         Date date2 = new Date();

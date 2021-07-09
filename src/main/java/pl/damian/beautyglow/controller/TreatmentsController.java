@@ -17,6 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/treatments")
 public class TreatmentsController {
+
     @Autowired
     TreatmentService treatmentService;
     @Autowired

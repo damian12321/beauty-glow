@@ -79,6 +79,7 @@ public class AccountController {
         }
         User user = userService.findByEmailAddress(theNewUser.getEmail());
         String userOldPassword = user.getPassword();
+
         if (!passwordEncoder.matches(theNewUser.getOldPassword(), userOldPassword)) {
             theModel.addAttribute("registrationError", "Stare hasło jest nie prawidłowe.");
             return "change-password";

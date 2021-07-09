@@ -1,10 +1,10 @@
 INSERT INTO role (name) VALUES ('ROLE_ADMIN'),('ROLE_CUSTOMER');
 INSERT INTO `user` (email,password,first_name,last_name,phone_number,date_of_birth,active,validation_key)
 VALUES
-('admin','$2a$10$n7LuMBb83Txm6WeOBdx7SeLx1ZjyUj8uNBP932ReDA.6W.uhJcq7e','Damian','Juruś','732799789','1994-06-24',1,'222222'),
-('customer','$2y$12$cq7K0l79BhMjuO9qaTXiduiv/S3o6NPwaOt50JKHYY/PM4237M/VG','Name','Last Name','732799789','1994-06-24',1,'222222');;
+('admin@gmail.com','$2a$10$n7LuMBb83Txm6WeOBdx7SeLx1ZjyUj8uNBP932ReDA.6W.uhJcq7e','Damian','Juruś','732799789','1994-06-24',1,'222222'),
+('customer@gmail.com','$2y$12$cq7K0l79BhMjuO9qaTXiduiv/S3o6NPwaOt50JKHYY/PM4237M/VG','Name','Last Name','732799789','1994-06-24',1,'222222');;
 INSERT INTO `user_form` (user_id,question1,question2,question3,question4,question5,question6,question7)
-VALUES(1,0,0,0,0,0,0,0);
+VALUES(1,0,0,0,0,0,0,0),(2,1,1,1,0,0,0,0);
 INSERT INTO `treatment` (name,duration,cost)
 VALUES
 ('Zabieg numer 1',30,100),
